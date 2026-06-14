@@ -1,1 +1,18 @@
+# Sensitive cluster config
+cluster-backups/kubeconfig.yaml
 cluster-backups/node-token.txt
+cluster-backups/*.key
+cluster-backups/*.pem
+cluster-backups/*.crt
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
