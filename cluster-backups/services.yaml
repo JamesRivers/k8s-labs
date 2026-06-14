@@ -1,0 +1,508 @@
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      metallb.io/ip-allocated-from-pool: lan-pool
+    creationTimestamp: "2026-06-14T19:16:22Z"
+    finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+    labels:
+      app: dashy
+    name: dashy
+    namespace: dashy
+    resourceVersion: "17070"
+    uid: df5d2b03-0063-464d-960c-53844c7f9679
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.43.205.148
+    clusterIPs:
+    - 10.43.205.148
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - nodePort: 30849
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: dashy
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 192.168.0.200
+        ipMode: VIP
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-06-14T17:46:59Z"
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "199"
+    uid: f028b1b2-a65e-4d36-9d19-dbc89b274cdc
+  spec:
+    clusterIP: 10.43.0.1
+    clusterIPs:
+    - 10.43.0.1
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 6443
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      objectset.rio.cattle.io/applied: H4sIAAAAAAAA/4ySQYvbMBCF/0p5Z9m142TjFfRQdimUQgmk7aXsQZYnG9W2JKRJSgj+70WJl00b0vZm8958vHmjI5Q33yhE4ywk9iUEOmNbSKwp7I0mCAzEqlWsII9Q1jpWbJyN6dc1P0hzJM6DcblWzD3lxr01iQBxU3c/LYXsed9BoqvihbIvxZtPxrbv3rets/9EWDUQJLQL1Nr4X/bolU4z3a6hLB4i0wABH9xAvKVdTG7vAkPivlxUV1rUQfkE4LAjjAK9aqg/1dHVMVPev8DPidJnsMR0mtb9LjKFLE71Tpg/bdNeDy7Q4+f1X/baqriFRKNpVlez+7ouy+W8UkVV36lmURab2eZuSZvlfDYv9GKZ8k7si4i3ahkFoiedVptyf1xBoizyeZUXeVlAvAoR8vul9CRg/Ac1mP6wcr3Rh/SojH3uac1Kd6lXFzhNHV8indOcy19Up+LZaddD4uvjCqO4dGas/S33l4ff3ANxMPqVne567X8SiNSTZhduHHMcx18BAAD//5X9LCMyAwAA
+      objectset.rio.cattle.io/id: ""
+      objectset.rio.cattle.io/owner-gvk: k3s.cattle.io/v1, Kind=Addon
+      objectset.rio.cattle.io/owner-name: coredns
+      objectset.rio.cattle.io/owner-namespace: kube-system
+      prometheus.io/port: "9153"
+      prometheus.io/scrape: "true"
+    creationTimestamp: "2026-06-14T17:47:04Z"
+    labels:
+      k8s-app: kube-dns
+      kubernetes.io/cluster-service: "true"
+      kubernetes.io/name: CoreDNS
+      objectset.rio.cattle.io/hash: bce283298811743a0386ab510f2f67ef74240c57
+    name: kube-dns
+    namespace: kube-system
+    resourceVersion: "306"
+    uid: 0e6f957c-fa08-4755-ab16-d9fe60981b9e
+  spec:
+    clusterIP: 10.43.0.10
+    clusterIPs:
+    - 10.43.0.10
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: dns
+      port: 53
+      protocol: UDP
+      targetPort: 53
+    - name: dns-tcp
+      port: 53
+      protocol: TCP
+      targetPort: 53
+    - name: metrics
+      port: 9153
+      protocol: TCP
+      targetPort: 9153
+    selector:
+      k8s-app: kube-dns
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      objectset.rio.cattle.io/applied: H4sIAAAAAAAA/4SQQWsbMRCF/0p5Z9nNep04FfRQWnopBUNKL6WHWe04VleWhGa8xZj970UbFxLaJCchvZn3vqczKPvvXMSnCIuxgcHgYw+LOy6jdwyDAyv1pAR7BsWYlNSnKPWaul/sVFiXxaelI9XAS5/e+uoA86yefkcui/txgMXQyiNlbMybLz727z/0fYqvWkQ6MGxFLN7JQriMXObjgf31bcnkqsVw7HghJ1E+YDII1HGYO1ahRFaWuujCUfRRhIWWY016Onbh+vqE6wWePckeFnTdt527uWrc7abhZtXuqF11q83uev2uu2HabK46t1tTJfxvdTy8P1NKMrtayefPdPDhtE3BuxMstoV3XD4dKdwpuQEGORUV2B/nvzl71SwXAXa9bg1ySZpcCrD49nELA6Vyz7qdJy4L008D4cBOU5l/81YWlPO/4NM0/QkAAP//sKxN444CAAA
+      objectset.rio.cattle.io/id: ""
+      objectset.rio.cattle.io/owner-gvk: k3s.cattle.io/v1, Kind=Addon
+      objectset.rio.cattle.io/owner-name: metrics-server-service
+      objectset.rio.cattle.io/owner-namespace: kube-system
+    creationTimestamp: "2026-06-14T17:47:04Z"
+    labels:
+      kubernetes.io/cluster-service: "true"
+      kubernetes.io/name: Metrics-server
+      objectset.rio.cattle.io/hash: a5d3bc601c871e123fa32b27f549b6ea770bcf4a
+    name: metrics-server
+    namespace: kube-system
+    resourceVersion: "356"
+    uid: 80fb5d93-c35a-4446-86a1-0b9641de1b84
+  spec:
+    clusterIP: 10.43.204.161
+    clusterIPs:
+    - 10.43.204.161
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: PreferDualStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+    selector:
+      k8s-app: metrics-server
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"metallb-webhook-service","namespace":"metallb-system"},"spec":{"ports":[{"port":443,"targetPort":9443}],"selector":{"component":"controller"}}}
+    creationTimestamp: "2026-06-14T18:20:30Z"
+    name: metallb-webhook-service
+    namespace: metallb-system
+    resourceVersion: "6590"
+    uid: 6e1b1bcc-c3a0-483e-a47f-56fdeb50b37f
+  spec:
+    clusterIP: 10.43.31.150
+    clusterIPs:
+    - 10.43.31.150
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 443
+      protocol: TCP
+      targetPort: 9443
+    selector:
+      component: controller
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: alloy
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:46:34Z"
+    labels:
+      app.kubernetes.io/component: networking
+      app.kubernetes.io/instance: alloy
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: alloy
+      app.kubernetes.io/part-of: alloy
+      app.kubernetes.io/version: v1.17.0
+      helm.sh/chart: alloy-1.10.0
+    name: alloy
+    namespace: observability
+    resourceVersion: "33578"
+    uid: df74dc5a-b951-496c-88d5-05c18a0a735a
+  spec:
+    clusterIP: 10.43.202.175
+    clusterIPs:
+    - 10.43.202.175
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http-metrics
+      port: 12345
+      protocol: TCP
+      targetPort: 12345
+    selector:
+      app.kubernetes.io/instance: alloy
+      app.kubernetes.io/name: alloy
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: loki
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:44:18Z"
+    labels:
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/version: 3.6.7
+      helm.sh/chart: loki-7.0.0
+    name: loki
+    namespace: observability
+    resourceVersion: "32950"
+    uid: 05291942-3e7b-47a0-8fbc-9b2ded01a5b0
+  spec:
+    clusterIP: 10.43.225.244
+    clusterIPs:
+    - 10.43.225.244
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http-metrics
+      port: 3100
+      protocol: TCP
+      targetPort: http-metrics
+    - name: grpc
+      port: 9095
+      protocol: TCP
+      targetPort: grpc
+    selector:
+      app.kubernetes.io/component: single-binary
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/name: loki
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: loki
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:44:18Z"
+    labels:
+      app.kubernetes.io/component: canary
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/version: 3.6.7
+      helm.sh/chart: loki-7.0.0
+    name: loki-canary
+    namespace: observability
+    resourceVersion: "32948"
+    uid: a7511b0d-01e3-4be5-8594-ffcf50da73d7
+  spec:
+    clusterIP: 10.43.235.202
+    clusterIPs:
+    - 10.43.235.202
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http-metrics
+      port: 3500
+      protocol: TCP
+      targetPort: http-metrics
+    selector:
+      app.kubernetes.io/component: canary
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/name: loki
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: loki
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:44:18Z"
+    labels:
+      app.kubernetes.io/component: memcached-chunks-cache
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/version: 3.6.7
+      helm.sh/chart: loki-7.0.0
+    name: loki-chunks-cache
+    namespace: observability
+    resourceVersion: "32947"
+    uid: cc67237e-e38e-4673-96f1-334c0e5c0f01
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: memcached-client
+      port: 11211
+      protocol: TCP
+      targetPort: client
+    - name: http-metrics
+      port: 9150
+      protocol: TCP
+      targetPort: http-metrics
+    selector:
+      app.kubernetes.io/component: memcached-chunks-cache
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/name: loki
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: loki
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:44:18Z"
+    labels:
+      app.kubernetes.io/component: gateway
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/version: 3.6.7
+      helm.sh/chart: loki-7.0.0
+      prometheus.io/service-monitor: "false"
+    name: loki-gateway
+    namespace: observability
+    resourceVersion: "32952"
+    uid: 6061328e-849b-451c-9455-2a9f5ddfd4b8
+  spec:
+    clusterIP: 10.43.43.117
+    clusterIPs:
+    - 10.43.43.117
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http-metrics
+      port: 80
+      protocol: TCP
+      targetPort: http-metrics
+    selector:
+      app.kubernetes.io/component: gateway
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/name: loki
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: loki
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:44:18Z"
+    labels:
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/version: 3.6.7
+      helm.sh/chart: loki-7.0.0
+      prometheus.io/service-monitor: "false"
+      variant: headless
+    name: loki-headless
+    namespace: observability
+    resourceVersion: "32945"
+    uid: cfdbfc4d-54c4-45a9-a2b9-6e5210614fdc
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http-metrics
+      port: 3100
+      protocol: TCP
+      targetPort: http-metrics
+    selector:
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/name: loki
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: loki
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:44:18Z"
+    labels:
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/version: 3.6.7
+      helm.sh/chart: loki-7.0.0
+    name: loki-memberlist
+    namespace: observability
+    resourceVersion: "32946"
+    uid: 3b049138-e59c-4c0b-bdbd-0b74517336a2
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: tcp
+      port: 7946
+      protocol: TCP
+      targetPort: http-memberlist
+    selector:
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/part-of: memberlist
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      meta.helm.sh/release-name: loki
+      meta.helm.sh/release-namespace: observability
+    creationTimestamp: "2026-06-14T20:44:18Z"
+    labels:
+      app.kubernetes.io/component: memcached-results-cache
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/managed-by: Helm
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/version: 3.6.7
+      helm.sh/chart: loki-7.0.0
+    name: loki-results-cache
+    namespace: observability
+    resourceVersion: "32944"
+    uid: 75944e09-ce8f-4bcc-aced-3c02dd34a69b
+  spec:
+    clusterIP: None
+    clusterIPs:
+    - None
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: memcached-client
+      port: 11211
+      protocol: TCP
+      targetPort: client
+    - name: http-metrics
+      port: 9150
+      protocol: TCP
+      targetPort: http-metrics
+    selector:
+      app.kubernetes.io/component: memcached-results-cache
+      app.kubernetes.io/instance: loki
+      app.kubernetes.io/name: loki
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""

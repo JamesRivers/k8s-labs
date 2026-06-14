@@ -29,7 +29,7 @@ items:
       kubernetes.io/os: linux
       node.kubernetes.io/instance-type: k3s
     name: curly
-    resourceVersion: "19890"
+    resourceVersion: "33225"
     uid: 4c279579-d6d7-4cbf-bd3f-f2a5de7773b8
   spec:
     podCIDR: 10.42.1.0/24
@@ -59,25 +59,25 @@ items:
       memory: 7948912Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:47Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:47Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:47Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:47Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -106,9 +106,21 @@ items:
       - docker.io/cloudflare/cloudflared:latest
       sizeBytes: 28477249
     - names:
+      - docker.io/nginxinc/nginx-unprivileged@sha256:0c79d56aee561a1d81c63f00eee5fb5fe29279560cdc55e91425133104c7fbe6
+      - docker.io/nginxinc/nginx-unprivileged:1.29-alpine
+      sizeBytes: 23098099
+    - names:
+      - docker.io/grafana/loki-canary@sha256:0dac7d5cb383adb8d3723676a70ed0c65b582e636846f4ce48703556dd509ad1
+      - docker.io/grafana/loki-canary:3.6.7
+      sizeBytes: 13506483
+    - names:
       - docker.io/rancher/klipper-lb@sha256:910944bb0bd94f060a82a56ca1ea1c577d3e49b3473a093a47a985f32e92d94a
       - docker.io/rancher/klipper-lb:v0.4.17
       sizeBytes: 5280144
+    - names:
+      - docker.io/library/busybox@sha256:fd8d9aa63ba2f0982b5304e1ee8d3b90a210bc1ffb5314d980eb6962f1a9715d
+      - docker.io/library/busybox:latest
+      sizeBytes: 2236931
     - names:
       - docker.io/rancher/mirrored-pause@sha256:74c4244427b7312c5b901fe0f67cbc53683d06f4f24c6faee65d4182bf0fa893
       - docker.io/rancher/mirrored-pause:3.6
@@ -168,7 +180,7 @@ items:
       kubernetes.io/os: linux
       node.kubernetes.io/instance-type: k3s
     name: larry
-    resourceVersion: "19450"
+    resourceVersion: "33729"
     uid: b344a5a8-225e-473f-a259-0b2d2711ccc5
   spec:
     podCIDR: 10.42.3.0/24
@@ -198,25 +210,25 @@ items:
       memory: 7949616Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
+    - lastHeartbeatTime: "2026-06-14T20:47:07Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
+    - lastHeartbeatTime: "2026-06-14T20:47:07Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
+    - lastHeartbeatTime: "2026-06-14T20:47:07Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
+    - lastHeartbeatTime: "2026-06-14T20:47:07Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -228,6 +240,10 @@ items:
     features:
       supplementalGroupsPolicy: true
     images:
+    - names:
+      - docker.io/grafana/alloy@sha256:41c41849989b7e054ccbadc17938ee1e5592fe26bfbc56ef3ffc109c0b0b2739
+      - docker.io/grafana/alloy:v1.17.0
+      sizeBytes: 154258252
     - names:
       - quay.io/metallb/speaker@sha256:b09a1dfcf330938950b65115cd58f6989108c0c21d3c096040e7fe9a25a92993
       - quay.io/metallb/speaker:v0.14.9
@@ -241,9 +257,28 @@ items:
       - docker.io/cloudflare/cloudflared:latest
       sizeBytes: 28477249
     - names:
+      - quay.io/prometheus-operator/prometheus-config-reloader@sha256:7d9e4eea5f1139e602508871f422b0116c60e87c662f3dcd234d5ab60cd0d8c1
+      sizeBytes: 14230135
+    - names:
+      - docker.io/grafana/loki-canary@sha256:0dac7d5cb383adb8d3723676a70ed0c65b582e636846f4ce48703556dd509ad1
+      - docker.io/grafana/loki-canary:3.6.7
+      sizeBytes: 13506483
+    - names:
+      - docker.io/prom/memcached-exporter@sha256:b6763ecb3c47f2408e0398518851b7f8c5fc46232b2649f8c78a321130c54266
+      - docker.io/prom/memcached-exporter:v0.15.4
+      sizeBytes: 10347247
+    - names:
+      - docker.io/library/memcached@sha256:c8503d4491edd3110cc07d0465089d3a41cf1daf8645e71149e39a51835e92cd
+      - docker.io/library/memcached:1.6.39-alpine
+      sizeBytes: 5990337
+    - names:
       - docker.io/rancher/klipper-lb@sha256:910944bb0bd94f060a82a56ca1ea1c577d3e49b3473a093a47a985f32e92d94a
       - docker.io/rancher/klipper-lb:v0.4.17
       sizeBytes: 5280144
+    - names:
+      - docker.io/library/busybox@sha256:fd8d9aa63ba2f0982b5304e1ee8d3b90a210bc1ffb5314d980eb6962f1a9715d
+      - docker.io/library/busybox:latest
+      sizeBytes: 2236931
     - names:
       - docker.io/rancher/mirrored-pause@sha256:74c4244427b7312c5b901fe0f67cbc53683d06f4f24c6faee65d4182bf0fa893
       - docker.io/rancher/mirrored-pause:3.6
@@ -279,7 +314,7 @@ items:
   metadata:
     annotations:
       alpha.kubernetes.io/provided-node-ip: 192.168.0.122,fd31:1f25:6d01:1151:68dc:e3ff:fe7a:d579
-      etcd.k3s.cattle.io/local-snapshots-timestamp: "2026-06-14T19:31:50Z"
+      etcd.k3s.cattle.io/local-snapshots-timestamp: "2026-06-14T20:44:14Z"
       etcd.k3s.cattle.io/node-address: 192.168.0.122
       etcd.k3s.cattle.io/node-name: moe-ccf5eece
       flannel.alpha.coreos.com/backend-data: '{"VNI":1,"VtepMAC":"82:f5:9e:0f:70:e9"}'
@@ -308,7 +343,7 @@ items:
       node-role.kubernetes.io/etcd: "true"
       node.kubernetes.io/instance-type: k3s
     name: moe
-    resourceVersion: "19975"
+    resourceVersion: "33269"
     uid: 4ebc0f0c-a03f-431b-a03b-6c0fcd8b7826
   spec:
     podCIDR: 10.42.0.0/24
@@ -338,31 +373,31 @@ items:
       memory: 7949464Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-14T19:32:19Z"
+    - lastHeartbeatTime: "2026-06-14T20:42:21Z"
       lastTransitionTime: "2026-06-14T17:47:04Z"
       message: Node is a voting member of the etcd cluster
       reason: MemberNotLearner
       status: "True"
       type: EtcdIsVoter
-    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
+    - lastHeartbeatTime: "2026-06-14T20:44:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -383,17 +418,37 @@ items:
       - quay.io/metallb/speaker:v0.14.9
       sizeBytes: 55246333
     - names:
+      - docker.io/grafana/loki@sha256:3c8fd3570dd9219951a60d3f919c7f31923d10baee578b77bc26c4a0b32d092d
+      - docker.io/grafana/loki:3.6.7
+      sizeBytes: 41373791
+    - names:
       - docker.io/rancher/mirrored-coredns-coredns@sha256:b21d26b915e10acb5bc78715c1e8b6047ab2675389b2bcc18b3a6499d90e74c0
       - docker.io/rancher/mirrored-coredns-coredns:1.14.3
       sizeBytes: 23543069
+    - names:
+      - docker.io/kiwigrid/k8s-sidecar@sha256:a6b3f707f883108376514489a94d6629109a327b2978e1d826cd104c4ca436df
+      - docker.io/kiwigrid/k8s-sidecar:2.5.0
+      sizeBytes: 23422974
     - names:
       - docker.io/rancher/mirrored-metrics-server@sha256:b2d2efaf5ac3b366ed0f839d2412a2c4279d4fc2a2a733f12c52133faed36c41
       - docker.io/rancher/mirrored-metrics-server:v0.8.1
       sizeBytes: 22550016
     - names:
+      - docker.io/grafana/loki-canary@sha256:0dac7d5cb383adb8d3723676a70ed0c65b582e636846f4ce48703556dd509ad1
+      - docker.io/grafana/loki-canary:3.6.7
+      sizeBytes: 13506483
+    - names:
       - docker.io/rancher/klipper-lb@sha256:910944bb0bd94f060a82a56ca1ea1c577d3e49b3473a093a47a985f32e92d94a
       - docker.io/rancher/klipper-lb:v0.4.17
       sizeBytes: 5280144
+    - names:
+      - docker.io/library/busybox@sha256:fd8d9aa63ba2f0982b5304e1ee8d3b90a210bc1ffb5314d980eb6962f1a9715d
+      - docker.io/library/busybox:latest
+      sizeBytes: 2236931
+    - names:
+      - docker.io/rancher/mirrored-library-busybox@sha256:101b4afd76732482eff9b95cae5f94bcf295e521fbec4e01b69c5421f3f3f3e5
+      - docker.io/rancher/mirrored-library-busybox:1.37.0
+      sizeBytes: 2151353
     - names:
       - docker.io/rancher/mirrored-pause@sha256:74c4244427b7312c5b901fe0f67cbc53683d06f4f24c6faee65d4182bf0fa893
       - docker.io/rancher/mirrored-pause:3.6

@@ -45,6 +45,17 @@ graph TB
     metallb -- "LoadBalancer IPs" --> larry
     metallb -- "LoadBalancer IPs" --> curly
     cloudflare --> metallb
+
+    subgraph observability["Observability Stack"]
+        LOKI["Loki - Log Storage"]
+        ALLOY["Grafana Alloy - Log Collector (DaemonSet)"]
+        PROM["Prometheus - Metrics"]
+        GRAFANA["Grafana - Dashboards"]
+    end
+
+    ALLOY -- "ships logs" --> LOKI
+    PROM -- "metrics" --> GRAFANA
+    GRAFANA -- "queries" --> LOKI
 ```
 
 ## Hosts
@@ -71,6 +82,8 @@ graph TB
 | Service | URL (LAN) | URL (External) | Namespace |
 |---------|-----------|----------------|-----------|
 | Dashy | http://192.168.0.200 | https://dashy.wyc-lab.com | dashy |
+| Loki | http://192.168.0.201:3100 | - | observability |
+| Grafana | http://192.168.0.202 | - | observability |
 
 ## Storage
 
@@ -78,4 +91,4 @@ graph TB
 
 ## Backup Configs
 
-See [cluster-backups/](./cluster-backups/) for exported cluster state (nodes, services, deployments, tunnel config, MetalLB pool).
+See [cluster-backups/](./cluster-backups/) for exported cluster state (nodes, services, deployments, tunnel config, MetalLB pool, Dashy, Loki, Alloy).
