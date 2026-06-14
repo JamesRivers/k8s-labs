@@ -1,0 +1,27 @@
+apiVersion: v1
+data:
+  config.yaml: |2
+
+    tunnel: k3s-lab
+    credentials-file: /etc/cloudflared/credentials.json
+
+    ingress:
+      - hostname: grafana.wyc-lab.com
+        service: http://grafana-lb.observability.svc.cluster.local:80
+      - hostname: prometheus.wyc-lab.com
+        service: http://prometheus-lb.observability.svc.cluster.local:80
+      - hostname: dashy.wyc-lab.com
+        service: http://dashy.dashy.svc.cluster.local:80
+      - hostname: wyc-lab.com
+        service: http_status:404
+      - service: http_status:404
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"config.yaml":"\ntunnel: k3s-lab\ncredentials-file: /etc/cloudflared/credentials.json\n\ningress:\n  - hostname: grafana.wyc-lab.com\n    service: http://grafana-lb.observability.svc.cluster.local:80\n  - hostname: prometheus.wyc-lab.com\n    service: http://prometheus-lb.observability.svc.cluster.local:80\n  - hostname: dashy.wyc-lab.com\n    service: http://dashy.dashy.svc.cluster.local:80\n  - hostname: wyc-lab.com\n    service: http_status:404\n  - service: http_status:404\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"tunnel-config","namespace":"default"}}
+  creationTimestamp: "2026-06-14T18:37:56Z"
+  name: tunnel-config
+  namespace: default
+  resourceVersion: "35553"
+  uid: 2fe3c389-7264-495f-a2c9-f57c41188be1

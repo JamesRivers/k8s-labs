@@ -83,7 +83,8 @@ graph TB
 |---------|-----------|----------------|-----------|
 | Dashy | http://192.168.0.200 | https://dashy.wyc-lab.com | dashy |
 | Loki | http://192.168.0.201:3100 | - | observability |
-| Grafana | http://192.168.0.202 | - | observability |
+| Grafana | http://192.168.0.201 | https://grafana.wyc-lab.com | observability |
+| Prometheus | http://192.168.0.202 | https://prometheus.wyc-lab.com | observability |
 
 ## Storage
 
