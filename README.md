@@ -28,9 +28,17 @@ graph TB
         C_ROLE["Role: K3s Agent"]
     end
 
+    subgraph metallb["MetalLB"]
+        LB_POOL["IP Pool: 192.168.0.200-220"]
+        LB_MODE["Mode: Layer 2"]
+    end
+
     yoshi -- "kubectl (kubeconfig)" --> moe
     moe -- "control plane" --> larry
     moe -- "control plane" --> curly
+    metallb -- "LoadBalancer IPs" --> moe
+    metallb -- "LoadBalancer IPs" --> larry
+    metallb -- "LoadBalancer IPs" --> curly
 ```
 
 ## Hosts
@@ -41,6 +49,16 @@ graph TB
 | larry | 192.168.0.124 | K3s agent | Intel Pentium Silver J5005 (4C) | 7.6 GiB | 32GB |
 | curly | 192.168.0.125 | K3s agent | Intel Pentium Silver J5005 (4C) | 7.6 GiB | 32GB |
 | yoshi | local | kubectl client | Apple Silicon (aarch64) | - | - |
+
+## Networking
+
+| Component | Details |
+|-----------|---------|
+| **MetalLB** | Bare-metal load balancer, Layer 2 mode |
+| **IP Pool** | `192.168.0.200` – `192.168.0.220` |
+| **CNI** | Flannel (K3s default) |
+| **Pod CIDR** | `10.42.0.0/16` |
+| **Service CIDR** | `10.43.0.0/16` |
 
 ## Storage
 
