@@ -33,12 +33,18 @@ graph TB
         LB_MODE["Mode: Layer 2"]
     end
 
+    subgraph cloudflare["Cloudflare Tunnel"]
+        CF["cloudflared pod"]
+        CF_DNS["dashy.wyc-lab.com / wyc-lab.com"]
+    end
+
     yoshi -- "kubectl (kubeconfig)" --> moe
     moe -- "control plane" --> larry
     moe -- "control plane" --> curly
     metallb -- "LoadBalancer IPs" --> moe
     metallb -- "LoadBalancer IPs" --> larry
     metallb -- "LoadBalancer IPs" --> curly
+    cloudflare --> metallb
 ```
 
 ## Hosts
@@ -60,6 +66,16 @@ graph TB
 | **Pod CIDR** | `10.42.0.0/16` |
 | **Service CIDR** | `10.43.0.0/16` |
 
+## Services
+
+| Service | URL (LAN) | URL (External) | Namespace |
+|---------|-----------|----------------|-----------|
+| Dashy | http://192.168.0.200 | https://dashy.wyc-lab.com | dashy |
+
 ## Storage
 
 - **/wyc-kubernetes-labs** on moe — 1TB USB HDD mounted at `/wyc-kubernetes-labs` for config backups and documentation
+
+## Backup Configs
+
+See [cluster-backups/](./cluster-backups/) for exported cluster state (nodes, services, deployments, tunnel config, MetalLB pool).

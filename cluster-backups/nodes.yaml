@@ -29,7 +29,7 @@ items:
       kubernetes.io/os: linux
       node.kubernetes.io/instance-type: k3s
     name: curly
-    resourceVersion: "10987"
+    resourceVersion: "19890"
     uid: 4c279579-d6d7-4cbf-bd3f-f2a5de7773b8
   spec:
     podCIDR: 10.42.1.0/24
@@ -59,25 +59,25 @@ items:
       memory: 7948912Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-14T18:44:01Z"
+    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-14T18:44:01Z"
+    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-14T18:44:01Z"
+    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-14T18:44:01Z"
+    - lastHeartbeatTime: "2026-06-14T19:31:51Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -89,6 +89,10 @@ items:
     features:
       supplementalGroupsPolicy: true
     images:
+    - names:
+      - docker.io/lissy93/dashy@sha256:2d8cea13328c93f1234e10c2ab1c9edf767570513d6069bba1da15a21c2b0f7c
+      - docker.io/lissy93/dashy:latest
+      sizeBytes: 88621305
     - names:
       - docker.io/library/nginx@sha256:608a100c71651bf5b773c89083b4a1ad7ef4b2bd05d7a7e552271e03123692ad
       - docker.io/library/nginx:latest
@@ -164,7 +168,7 @@ items:
       kubernetes.io/os: linux
       node.kubernetes.io/instance-type: k3s
     name: larry
-    resourceVersion: "11078"
+    resourceVersion: "19450"
     uid: b344a5a8-225e-473f-a259-0b2d2711ccc5
   spec:
     podCIDR: 10.42.3.0/24
@@ -194,25 +198,25 @@ items:
       memory: 7949616Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-14T18:44:32Z"
+    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-14T18:44:32Z"
+    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-14T18:44:32Z"
+    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-14T18:44:32Z"
+    - lastHeartbeatTime: "2026-06-14T19:29:22Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -232,6 +236,10 @@ items:
       - quay.io/metallb/controller@sha256:86261567e5ff03978893bf03ea865275283ad1e3f0f20dd342ed501b651fdf78
       - quay.io/metallb/controller:v0.14.9
       sizeBytes: 29163511
+    - names:
+      - docker.io/cloudflare/cloudflared@sha256:ba461b8aa9c042156dbd39c38657fe7431bafa063220eab8d5330a523863da9f
+      - docker.io/cloudflare/cloudflared:latest
+      sizeBytes: 28477249
     - names:
       - docker.io/rancher/klipper-lb@sha256:910944bb0bd94f060a82a56ca1ea1c577d3e49b3473a093a47a985f32e92d94a
       - docker.io/rancher/klipper-lb:v0.4.17
@@ -271,7 +279,7 @@ items:
   metadata:
     annotations:
       alpha.kubernetes.io/provided-node-ip: 192.168.0.122,fd31:1f25:6d01:1151:68dc:e3ff:fe7a:d579
-      etcd.k3s.cattle.io/local-snapshots-timestamp: "2026-06-14T18:38:35Z"
+      etcd.k3s.cattle.io/local-snapshots-timestamp: "2026-06-14T19:31:50Z"
       etcd.k3s.cattle.io/node-address: 192.168.0.122
       etcd.k3s.cattle.io/node-name: moe-ccf5eece
       flannel.alpha.coreos.com/backend-data: '{"VNI":1,"VtepMAC":"82:f5:9e:0f:70:e9"}'
@@ -300,7 +308,7 @@ items:
       node-role.kubernetes.io/etcd: "true"
       node.kubernetes.io/instance-type: k3s
     name: moe
-    resourceVersion: "11537"
+    resourceVersion: "19975"
     uid: 4ebc0f0c-a03f-431b-a03b-6c0fcd8b7826
   spec:
     podCIDR: 10.42.0.0/24
@@ -330,31 +338,31 @@ items:
       memory: 7949464Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-14T18:47:06Z"
+    - lastHeartbeatTime: "2026-06-14T19:32:19Z"
       lastTransitionTime: "2026-06-14T17:47:04Z"
       message: Node is a voting member of the etcd cluster
       reason: MemberNotLearner
       status: "True"
       type: EtcdIsVoter
-    - lastHeartbeatTime: "2026-06-14T18:45:51Z"
+    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-14T18:45:51Z"
+    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-14T18:45:51Z"
+    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-14T18:45:51Z"
+    - lastHeartbeatTime: "2026-06-14T19:28:57Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet is posting ready status
       reason: KubeletReady

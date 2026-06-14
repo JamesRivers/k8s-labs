@@ -144,10 +144,12 @@ Edit the config.yaml to add more hostname/service entries:
 
 ```yaml
 ingress:
+  - hostname: dashy.wyc-lab.com
+    service: http://dashy.dashy.svc.cluster.local:80
   - hostname: app.wyc-lab.com
     service: http://my-app.default.svc.cluster.local:8080
   - hostname: wyc-lab.com
-    service: http://nginx-test.default.svc.cluster.local:80
+    service: http_status:404
   - service: http_status:404
 ```
 
