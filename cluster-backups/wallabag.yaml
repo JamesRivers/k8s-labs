@@ -1,0 +1,239 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"postgres","namespace":"wallabag"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"postgres"}},"template":{"metadata":{"labels":{"app":"postgres"}},"spec":{"containers":[{"env":[{"name":"POSTGRES_DB","value":"wallabag"},{"name":"POSTGRES_USER","value":"wallabag"},{"name":"POSTGRES_PASSWORD","value":"wallabagPass123"},{"name":"POSTGRES_INITDB_ARGS","value":"--auth-host=md5 --auth-local=trust"}],"image":"postgres:16-alpine","name":"postgres","volumeMounts":[{"mountPath":"/var/lib/postgresql/data","name":"data"}]}],"securityContext":{"runAsGroup":1024,"runAsUser":1024},"volumes":[{"hostPath":{"path":"/mnt/nas2/wallabag-postgres","type":"DirectoryOrCreate"},"name":"data"}]}}}}
+    creationTimestamp: "2026-06-15T13:53:23Z"
+    generation: 1
+    name: postgres
+    namespace: wallabag
+    resourceVersion: "218843"
+    uid: dbf02fa1-c060-48b3-97f6-2dcdead7e02c
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: postgres
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: postgres
+      spec:
+        containers:
+        - env:
+          - name: POSTGRES_DB
+            value: wallabag
+          - name: POSTGRES_USER
+            value: wallabag
+          - name: POSTGRES_PASSWORD
+            value: wallabagPass123
+          - name: POSTGRES_INITDB_ARGS
+            value: --auth-host=md5 --auth-local=trust
+          image: postgres:16-alpine
+          imagePullPolicy: IfNotPresent
+          name: postgres
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: data
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext:
+          runAsGroup: 1024
+          runAsUser: 1024
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - hostPath:
+            path: /mnt/nas2/wallabag-postgres
+            type: DirectoryOrCreate
+          name: data
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-06-15T13:53:25Z"
+      lastUpdateTime: "2026-06-15T13:53:25Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-06-15T13:53:23Z"
+      lastUpdateTime: "2026-06-15T13:53:25Z"
+      message: ReplicaSet "postgres-5876dcbb9b" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+    updatedReplicas: 1
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"wallabag","namespace":"wallabag"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"wallabag"}},"template":{"metadata":{"labels":{"app":"wallabag"}},"spec":{"containers":[{"env":[{"name":"SYMFONY__ENV__DATABASE_DRIVER","value":"pdo_pgsql"},{"name":"SYMFONY__ENV__DATABASE_HOST","value":"postgres.wallabag.svc.cluster.local"},{"name":"SYMFONY__ENV__DATABASE_PORT","value":"5432"},{"name":"SYMFONY__ENV__DATABASE_NAME","value":"wallabag"},{"name":"SYMFONY__ENV__DATABASE_USER","value":"wallabag"},{"name":"SYMFONY__ENV__DATABASE_PASSWORD","value":"wallabagPass123"},{"name":"SYMFONY__ENV__DOMAIN_NAME","value":"https://wallabag.wyc-lab.com"},{"name":"SYMFONY__ENV__MAILER_HOST","value":"127.0.0.1"},{"name":"SYMFONY__ENV__MAILER_USER","value":"~"},{"name":"SYMFONY__ENV__MAILER_PASSWORD","value":"~"}],"image":"wallabag/wallabag:latest","name":"wallabag","ports":[{"containerPort":80}]}]}}}}
+    creationTimestamp: "2026-06-15T13:39:59Z"
+    generation: 1
+    name: wallabag
+    namespace: wallabag
+    resourceVersion: "218993"
+    uid: 54f46748-5557-4a55-a831-bf1e67f02628
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: wallabag
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: wallabag
+      spec:
+        containers:
+        - env:
+          - name: SYMFONY__ENV__DATABASE_DRIVER
+            value: pdo_pgsql
+          - name: SYMFONY__ENV__DATABASE_HOST
+            value: postgres.wallabag.svc.cluster.local
+          - name: SYMFONY__ENV__DATABASE_PORT
+            value: "5432"
+          - name: SYMFONY__ENV__DATABASE_NAME
+            value: wallabag
+          - name: SYMFONY__ENV__DATABASE_USER
+            value: wallabag
+          - name: SYMFONY__ENV__DATABASE_PASSWORD
+            value: wallabagPass123
+          - name: SYMFONY__ENV__DOMAIN_NAME
+            value: https://wallabag.wyc-lab.com
+          - name: SYMFONY__ENV__MAILER_HOST
+            value: 127.0.0.1
+          - name: SYMFONY__ENV__MAILER_USER
+            value: "~"
+          - name: SYMFONY__ENV__MAILER_PASSWORD
+            value: "~"
+          image: wallabag/wallabag:latest
+          imagePullPolicy: Always
+          name: wallabag
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    conditions:
+    - lastTransitionTime: "2026-06-15T13:39:59Z"
+      lastUpdateTime: "2026-06-15T13:40:18Z"
+      message: ReplicaSet "wallabag-968455f69" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-06-15T13:53:33Z"
+      lastUpdateTime: "2026-06-15T13:53:33Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 1
+    readyReplicas: 1
+    replicas: 1
+    terminatingReplicas: 0
+    updatedReplicas: 1
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"postgres","namespace":"wallabag"},"spec":{"ports":[{"port":5432}],"selector":{"app":"postgres"}}}
+    creationTimestamp: "2026-06-15T13:39:45Z"
+    name: postgres
+    namespace: wallabag
+    resourceVersion: "215801"
+    uid: 79597a21-86f4-438c-98db-2f4e532010f7
+  spec:
+    clusterIP: 10.43.33.95
+    clusterIPs:
+    - 10.43.33.95
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 5432
+      protocol: TCP
+      targetPort: 5432
+    selector:
+      app: postgres
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"wallabag","namespace":"wallabag"},"spec":{"ports":[{"port":80,"targetPort":80}],"selector":{"app":"wallabag"},"type":"LoadBalancer"}}
+      metallb.io/ip-allocated-from-pool: lan-pool
+    creationTimestamp: "2026-06-15T13:39:59Z"
+    finalizers:
+    - service.kubernetes.io/load-balancer-cleanup
+    name: wallabag
+    namespace: wallabag
+    resourceVersion: "229463"
+    uid: db3e4e63-7e62-4321-9364-6dcf60731af4
+  spec:
+    allocateLoadBalancerNodePorts: true
+    clusterIP: 10.43.122.173
+    clusterIPs:
+    - 10.43.122.173
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - nodePort: 30458
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: wallabag
+    sessionAffinity: None
+    type: LoadBalancer
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 192.168.0.203
+        ipMode: VIP
+kind: List
+metadata:
+  resourceVersion: ""
