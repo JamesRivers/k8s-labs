@@ -85,6 +85,7 @@ graph TB
 | Loki | http://192.168.0.201:3100 | - | observability |
 | Grafana | http://192.168.0.201 | https://grafana.wyc-lab.com | observability |
 | Prometheus | http://192.168.0.202 | https://prometheus.wyc-lab.com | observability |
+| Wallabag | http://192.168.0.203 | https://wallabag.wyc-lab.com | wallabag |
 
 ## Storage
 
