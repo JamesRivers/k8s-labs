@@ -67,6 +67,17 @@ graph TB
 | curly | 192.168.0.125 | K3s agent | Intel Pentium Silver J5005 (4C) | 7.6 GiB | 32GB |
 | yoshi | local | kubectl client | Apple Silicon (aarch64) | - | - |
 
+## Applications
+
+### Wallabag
+
+| Field | Value |
+|-------|-------|
+| URL (LAN) | http://192.168.0.203 |
+| URL (External) | https://wallabag.wyc-lab.com |
+| Default user | wallabag |
+| Default pass | wallabag (change after first login) |
+
 ## Networking
 
 | Component | Details |
