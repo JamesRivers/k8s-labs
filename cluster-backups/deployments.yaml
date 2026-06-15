@@ -4,6 +4,11 @@ items:
   kind: Deployment
   metadata:
     annotations:
+      deployment.kubernetes.io/revision: "1"
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
       deployment.kubernetes.io/revision: "2"
     creationTimestamp: "2026-06-14T19:04:58Z"
     generation: 2
@@ -77,83 +82,7 @@ items:
   kind: Deployment
   metadata:
     annotations:
-      deployment.kubernetes.io/revision: "1"
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"cloudflared","namespace":"default"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"cloudflared"}},"template":{"metadata":{"labels":{"app":"cloudflared"}},"spec":{"containers":[{"args":["tunnel","--config","/etc/cloudflared/config/config.yaml","run"],"image":"cloudflare/cloudflared:latest","name":"cloudflared","volumeMounts":[{"mountPath":"/etc/cloudflared/config","name":"config"},{"mountPath":"/etc/cloudflared","name":"credentials"}]}],"volumes":[{"configMap":{"name":"tunnel-config"},"name":"config"},{"name":"credentials","secret":{"secretName":"tunnel-credentials"}}]}}}}
-    creationTimestamp: "2026-06-14T18:38:03Z"
-    generation: 1
-    name: cloudflared
-    namespace: default
-    resourceVersion: "216692"
-    uid: f796ea5d-d3e6-4640-a8c1-1f7270bd071a
-  spec:
-    progressDeadlineSeconds: 600
-    replicas: 1
-    revisionHistoryLimit: 10
-    selector:
-      matchLabels:
-        app: cloudflared
-    strategy:
-      rollingUpdate:
-        maxSurge: 25%
-        maxUnavailable: 25%
-      type: RollingUpdate
-    template:
-      metadata:
-        labels:
-          app: cloudflared
-      spec:
-        containers:
-        - args:
-          - tunnel
-          - --config
-          - /etc/cloudflared/config/config.yaml
-          - run
-          image: cloudflare/cloudflared:latest
-          imagePullPolicy: Always
-          name: cloudflared
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-          - mountPath: /etc/cloudflared/config
-            name: config
-          - mountPath: /etc/cloudflared
-            name: credentials
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-        volumes:
-        - configMap:
-            defaultMode: 420
-            name: tunnel-config
-          name: config
-        - name: credentials
-          secret:
-            defaultMode: 420
-            secretName: tunnel-credentials
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2026-06-14T18:38:03Z"
-      lastUpdateTime: "2026-06-14T18:38:11Z"
-      message: ReplicaSet "cloudflared-6dd9957548" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-    - lastTransitionTime: "2026-06-15T13:43:16Z"
-      lastUpdateTime: "2026-06-15T13:43:16Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    terminatingReplicas: 0
-    updatedReplicas: 1
+      deployment.kubernetes.io/revision: "3"
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
@@ -264,7 +193,6 @@ items:
         - key: CriticalAddonsOnly
           operator: Exists
         - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
           operator: Exists
         topologySpreadConstraints:
         - labelSelector:
@@ -384,7 +312,6 @@ items:
         - key: CriticalAddonsOnly
           operator: Exists
         - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
           operator: Exists
         volumes:
         - configMap:
@@ -510,7 +437,6 @@ items:
         - key: CriticalAddonsOnly
           operator: Exists
         - effect: NoSchedule
-          key: node-role.kubernetes.io/control-plane
           operator: Exists
         volumes:
         - emptyDir: {}
@@ -540,129 +466,6 @@ items:
   metadata:
     annotations:
       deployment.kubernetes.io/revision: "1"
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"metallb","component":"controller"},"name":"controller","namespace":"metallb-system"},"spec":{"revisionHistoryLimit":3,"selector":{"matchLabels":{"app":"metallb","component":"controller"}},"template":{"metadata":{"annotations":{"prometheus.io/port":"7472","prometheus.io/scrape":"true"},"labels":{"app":"metallb","component":"controller"}},"spec":{"containers":[{"args":["--port=7472","--log-level=info","--tls-min-version=VersionTLS12"],"env":[{"name":"METALLB_ML_SECRET_NAME","value":"memberlist"},{"name":"METALLB_DEPLOYMENT","value":"controller"}],"image":"quay.io/metallb/controller:v0.14.9","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/metrics","port":"monitoring"},"initialDelaySeconds":10,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"name":"controller","ports":[{"containerPort":7472,"name":"monitoring"},{"containerPort":9443,"name":"webhook-server","protocol":"TCP"}],"readinessProbe":{"failureThreshold":3,"httpGet":{"path":"/metrics","port":"monitoring"},"initialDelaySeconds":10,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":1},"securityContext":{"allowPrivilegeEscalation":false,"capabilities":{"drop":["all"]},"readOnlyRootFilesystem":true},"volumeMounts":[{"mountPath":"/tmp/k8s-webhook-server/serving-certs","name":"cert","readOnly":true}]}],"nodeSelector":{"kubernetes.io/os":"linux"},"securityContext":{"fsGroup":65534,"runAsNonRoot":true,"runAsUser":65534},"serviceAccountName":"controller","terminationGracePeriodSeconds":0,"volumes":[{"name":"cert","secret":{"defaultMode":420,"secretName":"metallb-webhook-cert"}}]}}}}
-    creationTimestamp: "2026-06-14T18:20:30Z"
-    generation: 1
-    labels:
-      app: metallb
-      component: controller
-    name: controller
-    namespace: metallb-system
-    resourceVersion: "6723"
-    uid: 6755f092-1426-4d19-9a8d-77f14237a3c9
-  spec:
-    progressDeadlineSeconds: 600
-    replicas: 1
-    revisionHistoryLimit: 3
-    selector:
-      matchLabels:
-        app: metallb
-        component: controller
-    strategy:
-      rollingUpdate:
-        maxSurge: 25%
-        maxUnavailable: 25%
-      type: RollingUpdate
-    template:
-      metadata:
-        annotations:
-          prometheus.io/port: "7472"
-          prometheus.io/scrape: "true"
-        labels:
-          app: metallb
-          component: controller
-      spec:
-        containers:
-        - args:
-          - --port=7472
-          - --log-level=info
-          - --tls-min-version=VersionTLS12
-          env:
-          - name: METALLB_ML_SECRET_NAME
-            value: memberlist
-          - name: METALLB_DEPLOYMENT
-            value: controller
-          image: quay.io/metallb/controller:v0.14.9
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /metrics
-              port: monitoring
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          name: controller
-          ports:
-          - containerPort: 7472
-            name: monitoring
-            protocol: TCP
-          - containerPort: 9443
-            name: webhook-server
-            protocol: TCP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /metrics
-              port: monitoring
-              scheme: HTTP
-            initialDelaySeconds: 10
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 1
-          resources: {}
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - all
-            readOnlyRootFilesystem: true
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-          - mountPath: /tmp/k8s-webhook-server/serving-certs
-            name: cert
-            readOnly: true
-        dnsPolicy: ClusterFirst
-        nodeSelector:
-          kubernetes.io/os: linux
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext:
-          fsGroup: 65534
-          runAsNonRoot: true
-          runAsUser: 65534
-        serviceAccount: controller
-        serviceAccountName: controller
-        terminationGracePeriodSeconds: 0
-        volumes:
-        - name: cert
-          secret:
-            defaultMode: 420
-            secretName: metallb-webhook-cert
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2026-06-14T18:20:50Z"
-      lastUpdateTime: "2026-06-14T18:20:50Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2026-06-14T18:20:30Z"
-      lastUpdateTime: "2026-06-14T18:20:50Z"
-      message: ReplicaSet "controller-c8d7656df" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    terminatingReplicas: 0
-    updatedReplicas: 1
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
@@ -726,12 +529,10 @@ items:
           - name: REQ_USERNAME
             valueFrom:
               secretKeyRef:
-                key: admin-user
                 name: kube-prometheus-stack-grafana
           - name: REQ_PASSWORD
             valueFrom:
               secretKeyRef:
-                key: admin-password
                 name: kube-prometheus-stack-grafana
           - name: REQ_URL
             value: http://localhost:3000/api/admin/provisioning/dashboards/reload
@@ -767,12 +568,10 @@ items:
           - name: REQ_USERNAME
             valueFrom:
               secretKeyRef:
-                key: admin-user
                 name: kube-prometheus-stack-grafana
           - name: REQ_PASSWORD
             valueFrom:
               secretKeyRef:
-                key: admin-password
                 name: kube-prometheus-stack-grafana
           - name: REQ_URL
             value: http://localhost:3000/api/admin/provisioning/datasources/reload
@@ -803,12 +602,10 @@ items:
           - name: GF_SECURITY_ADMIN_USER
             valueFrom:
               secretKeyRef:
-                key: admin-user
                 name: kube-prometheus-stack-grafana
           - name: GF_SECURITY_ADMIN_PASSWORD
             valueFrom:
               secretKeyRef:
-                key: admin-password
                 name: kube-prometheus-stack-grafana
           - name: GF_PATHS_DATA
             value: /var/lib/grafana/
@@ -1183,8 +980,6 @@ items:
         terminationGracePeriodSeconds: 30
         volumes:
         - name: tls-secret
-          secret:
-            defaultMode: 420
             secretName: kube-prometheus-stack-admission
   status:
     availableReplicas: 1
@@ -1339,168 +1134,11 @@ items:
   metadata:
     annotations:
       deployment.kubernetes.io/revision: "1"
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"postgres","namespace":"wallabag"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"postgres"}},"template":{"metadata":{"labels":{"app":"postgres"}},"spec":{"containers":[{"env":[{"name":"POSTGRES_DB","value":"wallabag"},{"name":"POSTGRES_USER","value":"wallabag"},{"name":"POSTGRES_PASSWORD","value":"wallabagPass123"},{"name":"POSTGRES_INITDB_ARGS","value":"--auth-host=md5 --auth-local=trust"}],"image":"postgres:16-alpine","name":"postgres","volumeMounts":[{"mountPath":"/var/lib/postgresql/data","name":"data"}]}],"securityContext":{"runAsGroup":1024,"runAsUser":1024},"volumes":[{"hostPath":{"path":"/mnt/nas2/wallabag-postgres","type":"DirectoryOrCreate"},"name":"data"}]}}}}
-    creationTimestamp: "2026-06-15T13:53:23Z"
-    generation: 1
-    name: postgres
-    namespace: wallabag
-    resourceVersion: "218843"
-    uid: dbf02fa1-c060-48b3-97f6-2dcdead7e02c
-  spec:
-    progressDeadlineSeconds: 600
-    replicas: 1
-    revisionHistoryLimit: 10
-    selector:
-      matchLabels:
-        app: postgres
-    strategy:
-      rollingUpdate:
-        maxSurge: 25%
-        maxUnavailable: 25%
-      type: RollingUpdate
-    template:
-      metadata:
-        labels:
-          app: postgres
-      spec:
-        containers:
-        - env:
-          - name: POSTGRES_DB
-            value: wallabag
-          - name: POSTGRES_USER
-            value: wallabag
-          - name: POSTGRES_PASSWORD
-            value: wallabagPass123
-          - name: POSTGRES_INITDB_ARGS
-            value: --auth-host=md5 --auth-local=trust
-          image: postgres:16-alpine
-          imagePullPolicy: IfNotPresent
-          name: postgres
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-          volumeMounts:
-          - mountPath: /var/lib/postgresql/data
-            name: data
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext:
-          runAsGroup: 1024
-          runAsUser: 1024
-        terminationGracePeriodSeconds: 30
-        volumes:
-        - hostPath:
-            path: /mnt/nas2/wallabag-postgres
-            type: DirectoryOrCreate
-          name: data
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2026-06-15T13:53:25Z"
-      lastUpdateTime: "2026-06-15T13:53:25Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    - lastTransitionTime: "2026-06-15T13:53:23Z"
-      lastUpdateTime: "2026-06-15T13:53:25Z"
-      message: ReplicaSet "postgres-5876dcbb9b" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    terminatingReplicas: 0
-    updatedReplicas: 1
 - apiVersion: apps/v1
   kind: Deployment
   metadata:
     annotations:
-      deployment.kubernetes.io/revision: "1"
-      kubectl.kubernetes.io/last-applied-configuration: |
-        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"wallabag","namespace":"wallabag"},"spec":{"replicas":1,"selector":{"matchLabels":{"app":"wallabag"}},"template":{"metadata":{"labels":{"app":"wallabag"}},"spec":{"containers":[{"env":[{"name":"SYMFONY__ENV__DATABASE_DRIVER","value":"pdo_pgsql"},{"name":"SYMFONY__ENV__DATABASE_HOST","value":"postgres.wallabag.svc.cluster.local"},{"name":"SYMFONY__ENV__DATABASE_PORT","value":"5432"},{"name":"SYMFONY__ENV__DATABASE_NAME","value":"wallabag"},{"name":"SYMFONY__ENV__DATABASE_USER","value":"wallabag"},{"name":"SYMFONY__ENV__DATABASE_PASSWORD","value":"wallabagPass123"},{"name":"SYMFONY__ENV__DOMAIN_NAME","value":"https://wallabag.wyc-lab.com"},{"name":"SYMFONY__ENV__MAILER_HOST","value":"127.0.0.1"},{"name":"SYMFONY__ENV__MAILER_USER","value":"~"},{"name":"SYMFONY__ENV__MAILER_PASSWORD","value":"~"}],"image":"wallabag/wallabag:latest","name":"wallabag","ports":[{"containerPort":80}]}]}}}}
-    creationTimestamp: "2026-06-15T13:39:59Z"
-    generation: 1
-    name: wallabag
-    namespace: wallabag
-    resourceVersion: "218993"
-    uid: 54f46748-5557-4a55-a831-bf1e67f02628
-  spec:
-    progressDeadlineSeconds: 600
-    replicas: 1
-    revisionHistoryLimit: 10
-    selector:
-      matchLabels:
-        app: wallabag
-    strategy:
-      rollingUpdate:
-        maxSurge: 25%
-        maxUnavailable: 25%
-      type: RollingUpdate
-    template:
-      metadata:
-        labels:
-          app: wallabag
-      spec:
-        containers:
-        - env:
-          - name: SYMFONY__ENV__DATABASE_DRIVER
-            value: pdo_pgsql
-          - name: SYMFONY__ENV__DATABASE_HOST
-            value: postgres.wallabag.svc.cluster.local
-          - name: SYMFONY__ENV__DATABASE_PORT
-            value: "5432"
-          - name: SYMFONY__ENV__DATABASE_NAME
-            value: wallabag
-          - name: SYMFONY__ENV__DATABASE_USER
-            value: wallabag
-          - name: SYMFONY__ENV__DATABASE_PASSWORD
-            value: wallabagPass123
-          - name: SYMFONY__ENV__DOMAIN_NAME
-            value: https://wallabag.wyc-lab.com
-          - name: SYMFONY__ENV__MAILER_HOST
-            value: 127.0.0.1
-          - name: SYMFONY__ENV__MAILER_USER
-            value: "~"
-          - name: SYMFONY__ENV__MAILER_PASSWORD
-            value: "~"
-          image: wallabag/wallabag:latest
-          imagePullPolicy: Always
-          name: wallabag
-          ports:
-          - containerPort: 80
-            protocol: TCP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-          terminationMessagePolicy: File
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        schedulerName: default-scheduler
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
-  status:
-    availableReplicas: 1
-    conditions:
-    - lastTransitionTime: "2026-06-15T13:39:59Z"
-      lastUpdateTime: "2026-06-15T13:40:18Z"
-      message: ReplicaSet "wallabag-968455f69" has successfully progressed.
-      reason: NewReplicaSetAvailable
-      status: "True"
-      type: Progressing
-    - lastTransitionTime: "2026-06-15T13:53:33Z"
-      lastUpdateTime: "2026-06-15T13:53:33Z"
-      message: Deployment has minimum availability.
-      reason: MinimumReplicasAvailable
-      status: "True"
-      type: Available
-    observedGeneration: 1
-    readyReplicas: 1
-    replicas: 1
-    terminatingReplicas: 0
-    updatedReplicas: 1
+      deployment.kubernetes.io/revision: "3"
 kind: List
 metadata:
   resourceVersion: ""
