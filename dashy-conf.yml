@@ -1,0 +1,320 @@
+appConfig:
+  title: Dashboard
+  navLinks:
+    - title: GitHub
+      path: https://github.com/Lissy93/dashy
+    - title: Documentation
+      path: https://dashy.to/docs
+
+sections:
+  - name: Top
+    icon: fas fa-rocket
+    items:
+      - title: ChatGPT
+        description: ChatJipitty 
+        url: https://chatgpt.com/
+        icon: fas fa-robot
+      - title: GitHub
+        description: My Github
+        url: https://github.com/JamesRivers
+        icon: fab fa-github
+      - title: Reddit
+        description: Reddit home page
+        url: https://www.reddit.com/
+        icon: fab fa-reddit
+      - title: Immich
+        description: Photo and video backup
+        url: http://192.168.0.37:2283
+        icon: fas fa-images
+      - title: DuckDuckGo
+        description: Privacy-focused search engine
+        url: https://duckduckgo.com
+        icon: fab fa-searchengin
+      - title: IT Tools
+        description: Collection of handy IT tools
+        url: https://it-tools.tech/
+        icon: fas fa-tools
+      - title: Docs
+        description: Local documentation
+        url: http://127.0.0.1:8000
+        icon: fas fa-book
+      - title: StageTime Editor
+        description: StageTime scheduling editor
+        url: http://stagetime.imaginelabs.uk/editor
+        icon: fas fa-calendar-alt
+      - title: DPP
+        description: Digital Production Partnership
+        url: https://www.thedpp.com/
+        icon: fas fa-film
+      - title: Remote Hub Docs
+        description: Remote Hub documentation site
+        url: http://100.74.46.3:8000
+        icon: fas fa-globe
+
+  - name: Work
+    icon: fas fa-briefcase
+    items:
+      - title: My Applications
+        description: Microsoft work applications
+        url: https://myapplications.microsoft.com/
+        icon: fab fa-microsoft
+      - title: SharePoint
+        description: My imagine SharePoint
+        url: https://myimagine-my.sharepoint.com/?login_hint=jriver13%40imaginecommunications.com&source=waffle
+        icon: fas fa-folder
+      - title: Showell SharePoint
+        description: Showell Sales Enablement Content
+        url: https://myimagine.sharepoint.com/:f:/s/ShowellSalesenablementcontent/IgC5ypAEXJFsRbhrdKvudRhtAVnhsICs9lea5hpVnx_IQ0w?e=TLrdSe
+        icon: fas fa-share-alt
+      - title: Video PLM
+        description: Playout PLM and POs
+        url: https://myimagine-my.sharepoint.com/shared?id=%2Fsites%2FPlayoutPLMandPOs%2FShared%20Documents&listurl=https%3A%2F%2Fmyimagine.sharepoint.com%2Fsites%2FPlayoutPLMandPOs%2FShared%20Documents
+        icon: fas fa-play
+      - title: Showroom
+        description: Imagine Communications Showroom
+        url: https://showroom.imaginecommunications.com
+        icon: fas fa-store
+      - title: JFrog Artifactory
+        description: Package registry and artifact management
+        url: https://deploy.imaginecommunications.com/artifactory/webapp/#/home
+        icon: fas fa-box-open
+      - title: Imagine Communications
+        description: Imagine Communications corporate site
+        url: https://imaginecommunications.com
+        icon: fas fa-building
+      - title: James Rivers Profile
+        description: My Imagine Communications team page
+        url: https://imaginecommunications.com/about-us/team/james-rivers/
+        icon: fas fa-user
+      - title: Font Awesome
+        description: Icon library and toolkit
+        url: https://fontawesome.com/
+        icon: fab fa-font-awesome
+      - title: Customer Community Files
+        description: Customer Community Files SharePoint
+        url: https://myimagine.sharepoint.com/sites/CustomerCommunityFiles/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FCustomerCommunityFiles%2FShared%20Documents%2FPlayout%2FVersio%20Platform&viewid=17aeacad-f303-4caf-a0cf-3aa41a0b126c&p=true&xsdata=MDV8MDJ8fGM0NWJlNGI4NzRjNDYyNmY3M2UwOGRlOTA5ZDM1MDl8YzI2NDJmMjY3MjM3NDcxOGJkMWNiMDY3ZDg4ZDM4NjZ8MHwwfDYzOTEwNzIwMjAwNzMwNzI4NnxVbmtub3dufFZHVmhiWE5UWldOMWNtbDBlVk5sY25acFkyVmZVMUJQVEU5R0lpd2lWaUk2SWpBdU1DNHdNREF3SWl3aVVDSTZJbGRwYmpNeUlpd2lRVTRpT2lKUGRHaGxjaUlzSWxkVUlqb3hNWDA9fDF8TDJOb1lYUnpMekU1T20xbFpYUnBibWRmVFhwUmVscFhXbWhPTWxsMFRXMU5ORnBETURCUFIxRTFURlJuZDAxcWEzUk9iVTV0V20xTmVFMXRSbTFQUkdScFFIUm9jbVZoWkM1Mk1pOXRaWE56WVdkbGN5OHhOemMxTVRJek16azVPVGswfGIxNzg0ZThmOGZkMTQ5MGE4YWU0MDhkZTkwOWQzNTA5fDlkOWE5MDczYjhkYzQ3OWQ5YmYyZjU4YzlhNGVmZjY2&sdata=NXYxNElLMjZsci9ITUpETENCdlJzcjJ0Wm1mRFZiLzdZQ3pXaGFzVHVIOD0%3D&ovuser=c2642f26-7237-4718-bd1c-b067d88d3866%2Cjriver13%40imaginecommunications.com
+        icon: fas fa-folder-open
+      - title: Caretta Research Portal
+        description: Caretta Research portal
+        url: https://portal.carettaresearch.com
+        icon: fas fa-flask
+
+  - name: Playout Docs
+    icon: fas fa-book
+    items:
+      - title: Playout Docs Server
+        description: Playout documentation server
+        url: http://100.25.119.111:9000
+        icon: fas fa-server
+
+  - name: Drawing Tools
+    icon: fas fa-pen-fancy
+    items:
+      - title: Diagrams.net
+        description: Online diagram editor
+        url: https://app.diagrams.net/
+        icon: fas fa-project-diagram
+      - title: Lucidchart
+        description: Visual workspace for diagrams
+        url: https://lucid.app/users/login#/login
+        icon: fas fa-chart-pie
+      - title: Excalidraw
+        description: Virtual whiteboard
+        url: https://excalidraw.com/
+        icon: fas fa-pencil-ruler
+
+  - name: Learning & Training
+    icon: fas fa-graduation-cap
+    items:
+      - title: LinkedIn Learning
+        description: Online courses on LinkedIn
+        url: https://www.linkedin.com/learning/
+        icon: fab fa-linkedin
+      - title: Adrian Cantrill AWS
+        description: AWS training courses
+        url: https://learn.cantrill.io/l/dashboard
+        icon: fab fa-aws
+      - title: Pluralsight
+        description: Tech and creative courses
+        url: https://app.pluralsight.com/id
+        icon: fas fa-laptop-code
+      - title: Udemy
+        description: Online learning platform
+        url: https://www.udemy.com
+        icon: fas fa-graduation-cap
+
+  - name: JT-DMF and MXL
+    icon: fas fa-code
+    items:
+      - title: MXL GitHub
+        description: MXL specification on GitHub
+        url: https://github.com/dmf-mxl/mxl
+        icon: fab fa-github
+      - title: JT-DMF-CRM GitHub
+        description: JT-DMF Content Reference Model
+        url: https://github.com/AMWA-TV/JT-DMF-CRM
+        icon: fab fa-github
+      - title: Basecamp
+        description: JT-DMF project management
+        url: https://basecamp.com/1791706/projects/20166298
+        icon: fas fa-tasks
+      - title: Google Groups
+        description: JT-DMF-CRM discussion group
+        url: https://groups.google.com/u/0/a/amwa.tv/g/jt-dmf-crm
+        icon: fab fa-google
+      - title: Google Chat
+        description: JT-DMF Google Chat space
+        url: https://chat.google.com/app/chat/AAQAnHzHGD4
+        icon: fab fa-google
+
+  - name: London Colo Instances
+    icon: fas fa-server
+    items:
+      - title: Proxmox Node 1
+        description: Proxmox node at 192.168.90.65
+        url: https://192.168.90.65:8006
+        icon: fas fa-server
+      - title: Proxmox Node 2
+        description: Proxmox node at 192.168.90.66
+        url: https://192.168.90.66:8006
+        icon: fas fa-server
+      - title: Proxmox Node 3
+        description: Proxmox node at 192.168.90.67
+        url: https://192.168.90.67:8006
+        icon: fas fa-server
+      - title: Proxmox Node 4
+        description: Proxmox node at 192.168.90.170
+        url: https://192.168.90.170:8007
+        icon: fas fa-server
+      - title: SNP Unit 1
+        description: SNP Unit at 192.168.90.23
+        url: http://192.168.90.23
+        icon: fas fa-microchip
+      - title: SNP Unit 2
+        description: SNP Unit at 192.168.90.33
+        url: http://192.168.90.33
+        icon: fas fa-microchip
+      - title: SNP Metrics Exporter
+        description: Metrics endpoint
+        url: http://10.10.253.20:3800/metrics/
+        icon: fas fa-chart-line
+      - title: SNP Dashboard
+        description: SNP Metrics Dashboard
+        url: http://10.10.253.20:3800/dashboard
+        icon: fas fa-chart-bar
+      - title: Grafana
+        description: Monitoring dashboard
+        url: http://10.10.253.20:3000
+        icon: fas fa-chart-area
+      - title: Prometheus
+        description: Metrics collection
+        url: http://10.10.253.20:9090
+        icon: fas fa-database
+      - title: Cadvisor
+        description: Container monitoring
+        url: http://10.10.253.20:8080
+        icon: fas fa-box
+      - title: pfSense
+        description: Firewall and router
+        url: https://10.10.253.53/
+        icon: fas fa-shield-alt
+
+  - name: Access Tools
+    icon: fas fa-desktop
+    items:
+      - title: TeamViewer Web
+        description: Remote access and support
+        url: https://web.teamviewer.com/
+        icon: fas fa-headset
+      - title: Tailscale
+        description: VPN mesh networking
+        url: https://login.tailscale.com
+        icon: fas fa-network-wired
+
+  - name: Broadcast Reference Items
+    icon: fas fa-tv
+    items:
+      - title: SMPTE
+        description: Society of Motion Picture and Television Engineers
+        url: https://www.smpte.org
+        icon: fas fa-film
+
+  - name: WYC Lab Instances
+    icon: fas fa-flask
+    items:
+      - title: UPSnap
+        description: UPS monitoring
+        url: http://100.72.118.40:8090/
+        icon: fas fa-battery-full
+      - title: Proxmox Node 1
+        description: Proxmox node at 192.168.0.91
+        url: https://192.168.0.91:8006
+        icon: fas fa-server
+      - title: Proxmox Node 2
+        description: Proxmox node at 192.168.0.92
+        url: https://192.168.0.92:8006
+        icon: fas fa-server
+      - title: Proxmox Node 3
+        description: Proxmox node at 192.168.0.93
+        url: https://192.168.0.93:8006
+        icon: fas fa-server
+      - title: Synology NAS 1
+        description: Synology NAS at 192.168.0.185
+        url: http://192.168.0.185:5000
+        icon: fas fa-hdd
+      - title: Synology NAS 2
+        description: Synology NAS at 192.168.0.127
+        url: http://192.168.0.127:5000
+        icon: fas fa-hdd
+      - title: Open WebUI
+        description: Local AI interface
+        url: http://100.96.240.89:8080/
+        icon: fas fa-brain
+      - title: Jellyfin
+        description: Media server
+        url: http://100.96.240.89:8096
+        icon: fas fa-play
+      - title: Plex
+        description: Media streaming server
+        url: http://100.74.186.140:32400
+        icon: fas fa-film
+
+  - name: K3s Lab
+    icon: fas fa-cubes
+    items:
+      - title: Dashy
+        description: K3s lab dashboard
+        url: https://dashy.wyc-lab.com
+        icon: fas fa-tachometer-alt
+      - title: Grafana
+        description: Metrics and monitoring
+        url: https://grafana.wyc-lab.com
+        icon: fas fa-chart-line
+      - title: Prometheus
+        description: Metrics collection
+        url: https://prometheus.wyc-lab.com
+        icon: fas fa-database
+      - title: Wallabag
+        description: Read-it-later app
+        url: https://wallabag.wyc-lab.com
+        icon: fas fa-bookmark
+      - title: CommaFeed
+        description: RSS reader
+        url: https://commafeed.wyc-lab.com
+        icon: fas fa-rss
+      - title: Calibre-web
+        description: Ebook library manager
+        url: https://calibre.wyc-lab.com
+        icon: fas fa-book
+      - title: Cloudflare Tunnel
+        description: Zero Trust access
+        url: https://dash.cloudflare.com/
+        icon: fas fa-cloud
+
+  - name: R&R
+    icon: fas fa-gamepad
+    items:
+      - title: Poki
+        description: Free online games
+        url: https://poki.com/
+        icon: fas fa-gamepad
