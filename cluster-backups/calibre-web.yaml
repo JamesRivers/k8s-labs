@@ -1,14 +1,61 @@
+---
 apiVersion: v1
-items:
-- apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    annotations:
-      deployment.kubernetes.io/revision: "1"
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-kind: List
+kind: Namespace
 metadata:
-  resourceVersion: ""
+  name: calibre-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre-web
+  namespace: calibre-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calibre-web
+  template:
+    metadata:
+      labels:
+        app: calibre-web
+    spec:
+      containers:
+      - env:
+        - name: PUID
+          value: "1024"
+        - name: PGID
+          value: "100"
+        image: lscr.io/linuxserver/calibre-web:latest
+        name: calibre-web
+        ports:
+        - containerPort: 8083
+        volumeMounts:
+        - mountPath: /config
+          name: config
+        - mountPath: /books
+          name: books
+      volumes:
+      - hostPath:
+          path: /mnt/nas2/calibre-web-config
+          type: DirectoryOrCreate
+        name: config
+      - hostPath:
+          path: /mnt/nas2/calibre-web-books
+          type: DirectoryOrCreate
+        name: books
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.universe.tf/address-pool: lan-pool
+  name: calibre-web
+  namespace: calibre-web
+spec:
+  loadBalancerIP: 192.168.0.205
+  ports:
+  - port: 80
+    targetPort: 8083
+  selector:
+    app: calibre-web
+  type: LoadBalancer
