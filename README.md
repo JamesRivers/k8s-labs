@@ -35,7 +35,7 @@ graph TB
 
     subgraph cloudflare["Cloudflare Tunnel"]
         CF["cloudflared pod"]
-        CF_DNS["dashy / grafana / prometheus / wallabag / commafeed"]
+        CF_DNS["dashy / grafana / prometheus / wallabag / commafeed / calibre"]
     end
 
     yoshi -- "kubectl (kubeconfig)" --> moe
@@ -87,6 +87,15 @@ graph TB
 | Default user | admin |
 | Default pass | admin (change after first login) |
 
+### Calibre-web
+
+| Field | Value |
+|-------|-------|
+| URL (LAN) | http://192.168.0.205 |
+| URL (External) | https://calibre.wyc-lab.com |
+| Default user | admin |
+| Default pass | admin123 (change after first login) |
+
 ## Networking
 
 | Component | Details |
@@ -107,6 +116,7 @@ graph TB
 | Prometheus | http://192.168.0.202 | https://prometheus.wyc-lab.com | observability |
 | Wallabag | http://192.168.0.203 | https://wallabag.wyc-lab.com | wallabag |
 | CommaFeed | http://192.168.0.204 | https://commafeed.wyc-lab.com | commafeed |
+| Calibre-web | http://192.168.0.205 | https://calibre.wyc-lab.com | calibre-web |
 
 ## Storage
 

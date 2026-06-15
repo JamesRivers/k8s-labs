@@ -15,14 +15,16 @@ data:
       service: http://commafeed.commafeed.svc.cluster.local:80
     - hostname: wyc-lab.com
       service: http_status:404
+    - hostname: calibre.wyc-lab.com
+      service: http://calibre-web.calibre-web.svc.cluster.local:80
     - service: http_status:404
     tunnel: k3s-lab
 kind: ConfigMap
 metadata:
   annotations:
-      {"apiVersion":"v1","data":{"config.yaml":"credentials-file: /etc/cloudflared/credentials.json\ningress:\n- hostname: grafana.wyc-lab.com\n  service: http://grafana-lb.observability.svc.cluster.local:80\n- hostname: prometheus.wyc-lab.com\n  service: http://prometheus-lb.observability.svc.cluster.local:80\n- hostname: dashy.wyc-lab.com\n  service: http://dashy.dashy.svc.cluster.local:80\n- hostname: wallabag.wyc-lab.com\n  service: http://wallabag.wallabag.svc.cluster.local:80\n- hostname: commafeed.wyc-lab.com\n  service: http://commafeed.commafeed.svc.cluster.local:80\n- hostname: wyc-lab.com\n  service: http_status:404\n- service: http_status:404\ntunnel: k3s-lab\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"tunnel-config","namespace":"default"}}
+      {"apiVersion":"v1","data":{"config.yaml":"credentials-file: /etc/cloudflared/credentials.json\ningress:\n- hostname: grafana.wyc-lab.com\n  service: http://grafana-lb.observability.svc.cluster.local:80\n- hostname: prometheus.wyc-lab.com\n  service: http://prometheus-lb.observability.svc.cluster.local:80\n- hostname: dashy.wyc-lab.com\n  service: http://dashy.dashy.svc.cluster.local:80\n- hostname: wallabag.wyc-lab.com\n  service: http://wallabag.wallabag.svc.cluster.local:80\n- hostname: commafeed.wyc-lab.com\n  service: http://commafeed.commafeed.svc.cluster.local:80\n- hostname: wyc-lab.com\n  service: http_status:404\n- hostname: calibre.wyc-lab.com\n  service: http://calibre-web.calibre-web.svc.cluster.local:80\n- service: http_status:404\ntunnel: k3s-lab\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"tunnel-config","namespace":"default"}}
   creationTimestamp: "2026-06-14T18:37:56Z"
   name: tunnel-config
   namespace: default
-  resourceVersion: "247776"
+  resourceVersion: "298215"
   uid: 2fe3c389-7264-495f-a2c9-f57c41188be1

@@ -29,7 +29,7 @@ items:
       kubernetes.io/os: linux
       node.kubernetes.io/instance-type: k3s
     name: curly
-    resourceVersion: "250739"
+    resourceVersion: "298561"
     uid: 4c279579-d6d7-4cbf-bd3f-f2a5de7773b8
   spec:
     podCIDR: 10.42.1.0/24
@@ -59,25 +59,25 @@ items:
       memory: 7948912Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-15T16:47:43Z"
+    - lastHeartbeatTime: "2026-06-15T21:13:00Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-15T16:47:43Z"
+    - lastHeartbeatTime: "2026-06-15T21:13:00Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-15T16:47:43Z"
+    - lastHeartbeatTime: "2026-06-15T21:13:00Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-15T16:47:43Z"
+    - lastHeartbeatTime: "2026-06-15T21:13:00Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -224,7 +224,7 @@ items:
       kubernetes.io/os: linux
       node.kubernetes.io/instance-type: k3s
     name: larry
-    resourceVersion: "250558"
+    resourceVersion: "298357"
     uid: b344a5a8-225e-473f-a259-0b2d2711ccc5
   spec:
     podCIDR: 10.42.3.0/24
@@ -254,25 +254,25 @@ items:
       memory: 7949616Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-15T16:46:42Z"
+    - lastHeartbeatTime: "2026-06-15T21:11:54Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-15T16:46:42Z"
+    - lastHeartbeatTime: "2026-06-15T21:11:54Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-15T16:46:42Z"
+    - lastHeartbeatTime: "2026-06-15T21:11:54Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-15T16:46:42Z"
+    - lastHeartbeatTime: "2026-06-15T21:11:54Z"
       lastTransitionTime: "2026-06-14T17:47:52Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -374,7 +374,7 @@ items:
   metadata:
     annotations:
       alpha.kubernetes.io/provided-node-ip: 192.168.0.122,fd31:1f25:6d01:1151:68dc:e3ff:fe7a:d579
-      etcd.k3s.cattle.io/local-snapshots-timestamp: "2026-06-15T16:41:21Z"
+      etcd.k3s.cattle.io/local-snapshots-timestamp: "2026-06-15T21:07:56Z"
       etcd.k3s.cattle.io/node-address: 192.168.0.122
       etcd.k3s.cattle.io/node-name: moe-ccf5eece
       flannel.alpha.coreos.com/backend-data: '{"VNI":1,"VtepMAC":"82:f5:9e:0f:70:e9"}'
@@ -403,7 +403,7 @@ items:
       node-role.kubernetes.io/etcd: "true"
       node.kubernetes.io/instance-type: k3s
     name: moe
-    resourceVersion: "250784"
+    resourceVersion: "298574"
     uid: 4ebc0f0c-a03f-431b-a03b-6c0fcd8b7826
   spec:
     podCIDR: 10.42.0.0/24
@@ -433,31 +433,31 @@ items:
       memory: 7949464Ki
       pods: "110"
     conditions:
-    - lastHeartbeatTime: "2026-06-15T16:47:56Z"
+    - lastHeartbeatTime: "2026-06-15T21:13:04Z"
       lastTransitionTime: "2026-06-14T17:47:04Z"
       message: Node is a voting member of the etcd cluster
       reason: MemberNotLearner
       status: "True"
       type: EtcdIsVoter
-    - lastHeartbeatTime: "2026-06-15T16:46:00Z"
+    - lastHeartbeatTime: "2026-06-15T21:12:08Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has sufficient memory available
       reason: KubeletHasSufficientMemory
       status: "False"
       type: MemoryPressure
-    - lastHeartbeatTime: "2026-06-15T16:46:00Z"
+    - lastHeartbeatTime: "2026-06-15T21:12:08Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has no disk pressure
       reason: KubeletHasNoDiskPressure
       status: "False"
       type: DiskPressure
-    - lastHeartbeatTime: "2026-06-15T16:46:00Z"
+    - lastHeartbeatTime: "2026-06-15T21:12:08Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet has sufficient PID available
       reason: KubeletHasSufficientPID
       status: "False"
       type: PIDPressure
-    - lastHeartbeatTime: "2026-06-15T16:46:00Z"
+    - lastHeartbeatTime: "2026-06-15T21:12:08Z"
       lastTransitionTime: "2026-06-14T17:47:00Z"
       message: kubelet is posting ready status
       reason: KubeletReady
@@ -474,6 +474,10 @@ items:
       - docker.io/grafana/grafana:13.0.2
       sizeBytes: 352049768
     - names:
+      - lscr.io/linuxserver/calibre-web@sha256:58e1c0abdfcd22341d87402dc56577eae1f4a18344bdc0c02dfbd97c47dff4a6
+      - lscr.io/linuxserver/calibre-web:latest
+      sizeBytes: 266841134
+    - names:
       - docker.io/grafana/alloy@sha256:41c41849989b7e054ccbadc17938ee1e5592fe26bfbc56ef3ffc109c0b0b2739
       - docker.io/grafana/alloy:v1.17.0
       sizeBytes: 154258252
@@ -485,6 +489,10 @@ items:
       - docker.io/rancher/local-path-provisioner@sha256:1eba82e9c386038b4af6d69cca7519fac738c28c42735ed48ce70c882ad0d80f
       - docker.io/rancher/local-path-provisioner:v0.0.36
       sizeBytes: 89390500
+    - names:
+      - docker.io/lissy93/dashy@sha256:552984d4c2a9609ae5f61d26c43bc77079759d85b20d5758757fd3476174490a
+      - docker.io/lissy93/dashy:latest
+      sizeBytes: 88628252
     - names:
       - quay.io/metallb/speaker@sha256:b09a1dfcf330938950b65115cd58f6989108c0c21d3c096040e7fe9a25a92993
       - quay.io/metallb/speaker:v0.14.9

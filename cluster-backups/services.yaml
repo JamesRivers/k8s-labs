@@ -8,6 +8,10 @@ items:
   kind: Service
   metadata:
     annotations:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
       metallb.io/ip-allocated-from-pool: lan-pool
     creationTimestamp: "2026-06-14T19:16:22Z"
     finalizers:
@@ -16,7 +20,7 @@ items:
       app: dashy
     name: dashy
     namespace: dashy
-    resourceVersion: "239554"
+    resourceVersion: "259634"
     uid: df5d2b03-0063-464d-960c-53844c7f9679
   spec:
     allocateLoadBalancerNodePorts: true
