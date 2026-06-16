@@ -286,6 +286,10 @@ sections:
         description: K3s lab dashboard
         url: https://dashy.wyc-lab.com
         icon: fas fa-tachometer-alt
+      - title: Cluster Topology
+        description: Live cluster map with nodes, pods, network, storage
+        url: https://topology.wyc-lab.com
+        icon: fas fa-sitemap
       - title: Grafana
         description: Metrics and monitoring
         url: https://grafana.wyc-lab.com
@@ -310,6 +314,10 @@ sections:
         description: Zero Trust access
         url: https://dash.cloudflare.com/
         icon: fas fa-cloud
+      - title: rclone
+        description: rclone service
+        url: http://100.96.240.89:5572
+        icon: fas fa-network-wired
 
   - name: R&R
     icon: fas fa-gamepad
