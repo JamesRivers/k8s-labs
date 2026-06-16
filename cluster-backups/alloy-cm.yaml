@@ -1,0 +1,43 @@
+apiVersion: v1
+data:
+  config.alloy: |-
+    logging {
+        level  = "info"
+        format = "logfmt"
+    }
+
+    discovery.kubernetes "pods" {
+        role = "pod"
+    }
+
+    loki.source.kubernetes "pod_logs" {
+        targets    = discovery.kubernetes.pods.targets
+        forward_to = [loki.write.loki_endpoint.receiver]
+    }
+
+    loki.write "loki_endpoint" {
+        endpoint {
+            url = "http://loki.observability:3100/loki/api/v1/push"
+            tenant_id = "1"
+        }
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"config.alloy":"logging {\n    level  = \"info\"\n    format = \"logfmt\"\n}\n\ndiscovery.kubernetes \"pods\" {\n    role = \"pod\"\n}\n\nloki.source.kubernetes \"pod_logs\" {\n    targets    = discovery.kubernetes.pods.targets\n    forward_to = [loki.write.loki_endpoint.receiver]\n}\n\nloki.write \"loki_endpoint\" {\n    endpoint {\n        url = \"http://loki.observability:3100/loki/api/v1/push\"\n        tenant_id = \"1\"\n    }\n}"},"kind":"ConfigMap","metadata":{"annotations":{"meta.helm.sh/release-name":"alloy","meta.helm.sh/release-namespace":"observability"},"creationTimestamp":"2026-06-14T20:46:34Z","labels":{"app.kubernetes.io/component":"config","app.kubernetes.io/instance":"alloy","app.kubernetes.io/managed-by":"Helm","app.kubernetes.io/name":"alloy","app.kubernetes.io/part-of":"alloy","app.kubernetes.io/version":"v1.17.0","helm.sh/chart":"alloy-1.10.0"},"name":"alloy","namespace":"observability","resourceVersion":"430365","uid":"97a333b8-2e4c-4420-8cd4-9f593919bf21"}}
+    meta.helm.sh/release-name: alloy
+    meta.helm.sh/release-namespace: observability
+  creationTimestamp: "2026-06-14T20:46:34Z"
+  labels:
+    app.kubernetes.io/component: config
+    app.kubernetes.io/instance: alloy
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: alloy
+    app.kubernetes.io/part-of: alloy
+    app.kubernetes.io/version: v1.17.0
+    helm.sh/chart: alloy-1.10.0
+  name: alloy
+  namespace: observability
+  resourceVersion: "430850"
+  uid: 97a333b8-2e4c-4420-8cd4-9f593919bf21
