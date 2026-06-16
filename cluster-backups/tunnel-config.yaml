@@ -17,11 +17,14 @@ data:
       service: http_status:404
     - hostname: calibre.wyc-lab.com
       service: http://calibre-web.calibre-web.svc.cluster.local:80
+    - hostname: topology.wyc-lab.com
+      service: http://cluster-topology.cluster-topology.svc.cluster.local:80
     - service: http_status:404
     tunnel: k3s-lab
 kind: ConfigMap
 metadata:
   annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
       {"apiVersion":"v1","data":{"config.yaml":"credentials-file: /etc/cloudflared/credentials.json\ningress:\n- hostname: grafana.wyc-lab.com\n  service: http://grafana-lb.observability.svc.cluster.local:80\n- hostname: prometheus.wyc-lab.com\n  service: http://prometheus-lb.observability.svc.cluster.local:80\n- hostname: dashy.wyc-lab.com\n  service: http://dashy.dashy.svc.cluster.local:80\n- hostname: wallabag.wyc-lab.com\n  service: http://wallabag.wallabag.svc.cluster.local:80\n- hostname: commafeed.wyc-lab.com\n  service: http://commafeed.commafeed.svc.cluster.local:80\n- hostname: wyc-lab.com\n  service: http_status:404\n- hostname: calibre.wyc-lab.com\n  service: http://calibre-web.calibre-web.svc.cluster.local:80\n- service: http_status:404\ntunnel: k3s-lab\n"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"tunnel-config","namespace":"default"}}
   creationTimestamp: "2026-06-14T18:37:56Z"
   name: tunnel-config

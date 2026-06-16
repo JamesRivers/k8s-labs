@@ -1,0 +1,567 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cluster-topology
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: topology-viewer
+  namespace: cluster-topology
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: topology-viewer
+rules:
+- apiGroups: [""]
+  resources: [nodes, pods, services, persistentvolumes, persistentvolumeclaims, namespaces, endpoints]
+  verbs: [get, list, watch]
+- apiGroups: [apps]
+  resources: [deployments, statefulsets, daemonsets]
+  verbs: [get, list, watch]
+- apiGroups: [storage.k8s.io]
+  resources: [storageclasses]
+  verbs: [get, list, watch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: topology-viewer
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: topology-viewer
+subjects:
+- kind: ServiceAccount
+  name: topology-viewer
+  namespace: cluster-topology
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: topology-app
+  namespace: cluster-topology
+data:
+  app.py: |
+    import os
+    from kubernetes import client, config
+    from flask import Flask, render_template, jsonify
+
+    app = Flask(__name__, template_folder="/app")
+
+    try:
+        config.load_incluster_config()
+    except:
+        config.load_kube_config()
+
+    v1 = client.CoreV1Api()
+    apps_v1 = client.AppsV1Api()
+    storage_v1 = client.StorageV1Api()
+
+    def node_resources(n):
+        alloc = n.status.allocatable
+        return {
+            "cpu": alloc.get("cpu", "0"),
+            "memory": alloc.get("memory", "0"),
+            "pods": alloc.get("pods", "0"),
+        }
+
+    def pods_on_node(node_name):
+        field_selector = f"spec.nodeName={node_name}"
+        pods = v1.list_pod_for_all_namespaces(field_selector=field_selector, watch=False)
+        return [
+            {
+                "name": p.metadata.name,
+                "namespace": p.metadata.namespace,
+                "status": p.status.phase,
+                "ip": p.status.pod_ip or "-",
+                "containers": len(p.spec.containers),
+            }
+            for p in pods.items
+        ]
+
+    def get_k3s_version(n):
+        return n.status.node_info.kubelet_version
+
+    @app.route("/api/data")
+    def api_data():
+        nodes = []
+        for n in v1.list_node().items:
+            name = n.metadata.name
+            labels = n.metadata.labels or {}
+            roles = []
+            for label in labels:
+                if "node-role.kubernetes.io/" in label:
+                    roles.append(label.split("/")[-1])
+            if not roles:
+                roles = ["worker"]
+
+            internal_ip = None
+            for addr in n.status.addresses:
+                if addr.type == "InternalIP":
+                    internal_ip = addr.address
+                    break
+
+            nodes.append({
+                "name": name,
+                "roles": roles,
+                "internalIP": internal_ip,
+                "kubeletVersion": get_k3s_version(n),
+                "resources": node_resources(n),
+                "conditions": {c.type: c.status for c in n.status.conditions},
+                "pods": pods_on_node(name),
+            })
+
+        svcs = []
+        for s in v1.list_service_for_all_namespaces().items:
+            svcs.append({
+                "name": s.metadata.name,
+                "namespace": s.metadata.namespace,
+                "type": s.spec.type,
+                "clusterIP": s.spec.cluster_ip or "-",
+                "loadBalancerIP": s.status.load_balancer.ingress[0].ip
+                    if s.status.load_balancer.ingress else "-",
+                "ports": [
+                    f"{p.port}/{p.protocol}" if hasattr(p, "protocol") else str(p.port)
+                    for p in (s.spec.ports or [])
+                ],
+            })
+
+        pvcs = []
+        for p in v1.list_persistent_volume_claim_for_all_namespaces().items:
+            pvcs.append({
+                "name": p.metadata.name,
+                "namespace": p.metadata.namespace,
+                "status": p.status.phase,
+                "storage": p.spec.resources.requests.get("storage", "?")
+                    if p.spec.resources and p.spec.resources.requests else "?",
+                "accessModes": p.spec.access_modes or [],
+                "storageClass": p.spec.storage_class_name or "-",
+            })
+
+        pvs = []
+        for p in v1.list_persistent_volume().items:
+            pvs.append({
+                "name": p.metadata.name,
+                "status": p.status.phase,
+                "capacity": p.spec.capacity.get("storage", "?") if p.spec.capacity else "?",
+                "accessModes": p.spec.access_modes or [],
+                "storageClass": p.spec.storage_class_name or "-",
+                "claim": f"{p.spec.claim_ref.namespace}/{p.spec.claim_ref.name}"
+                    if p.spec.claim_ref else "-",
+            })
+
+        namespaces = [ns.metadata.name for ns in v1.list_namespace().items]
+        total_pods = len(v1.list_pod_for_all_namespaces(watch=False).items)
+
+        return jsonify(
+            nodes=nodes, services=svcs, pvcs=pvcs, pvs=pvs,
+            namespaces=namespaces,
+            counts={
+                "nodes": len(nodes), "pods": total_pods,
+                "services": len(svcs), "pvcs": len(pvcs),
+                "pvs": len(pvs), "namespaces": len(namespaces),
+            },
+        )
+
+    @app.route("/")
+    def index():
+        return render_template("index.html")
+
+    if __name__ == "__main__":
+        port = int(os.environ.get("PORT", 8080))
+        app.run(host="0.0.0.0", port=port, debug=False)
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K3s Cluster Topology</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --surface2: #334155;
+        --border: #475569;
+        --text: #f1f5f9;
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+        --green: #22c55e;
+        --yellow: #eab308;
+        --red: #ef4444;
+        --purple: #a855f7;
+        --pink: #ec4899;
+        --orange: #f97316;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body {
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        padding: 20px;
+        min-height: 100vh;
+      }
+      h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
+      .subtitle { color: var(--muted); margin-bottom: 24px; font-size: 0.9rem; }
+      .counters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+      .counter {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 14px 16px;
+        text-align: center;
+      }
+      .counter .num { font-size: 1.6rem; font-weight: 700; }
+      .counter .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+      section { margin-bottom: 28px; }
+      section h2 {
+        font-size: 1.1rem; font-weight: 600; margin-bottom: 12px;
+        display: flex; align-items: center; gap: 8px;
+      }
+      .node-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        gap: 14px;
+      }
+      .node-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .node-header {
+        padding: 14px 16px; border-bottom: 1px solid var(--border);
+        display: flex; justify-content: space-between; align-items: center;
+      }
+      .node-name { font-weight: 600; font-size: 1rem; }
+      .node-roles { display: flex; gap: 5px; }
+      .role-badge {
+        font-size: 0.7rem; padding: 2px 8px; border-radius: 4px;
+        font-weight: 600; text-transform: uppercase;
+      }
+      .role-control-plane { background: var(--purple); color: #fff; }
+      .role-master { background: var(--purple); color: #fff; }
+      .role-worker { background: var(--accent); color: #000; }
+      .role-etcd { background: var(--orange); color: #fff; }
+      .role-default { background: var(--surface2); }
+      .node-body { padding: 12px 16px; }
+      .node-info-row {
+        display: flex; justify-content: space-between;
+        font-size: 0.82rem; padding: 3px 0;
+      }
+      .node-info-row .lbl { color: var(--muted); }
+      .node-info-row .val { font-weight: 500; }
+      .node-status {
+        display: inline-block; width: 8px; height: 8px;
+        border-radius: 50%; margin-right: 6px;
+      }
+      .status-True { background: var(--green); }
+      .status-False { background: var(--red); }
+      .status-Unknown { background: var(--yellow); }
+      .pod-list { margin-top: 10px; border-top: 1px solid var(--border); padding-top: 8px; }
+      .pod-list-title { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+      .pod-item {
+        display: flex; justify-content: space-between; align-items: center;
+        font-size: 0.78rem; padding: 3px 0;
+      }
+      .pod-item .ns { color: var(--muted); font-size: 0.7rem; }
+      .pod-status-badge {
+        font-size: 0.65rem; padding: 1px 6px; border-radius: 3px; font-weight: 600;
+      }
+      .pod-Running { background: var(--green); color: #000; }
+      .pod-Pending { background: var(--yellow); color: #000; }
+      .pod-Failed { background: var(--red); color: #fff; }
+      .pod-Succeeded { background: var(--surface2); color: var(--muted); }
+      .pod-Unknown { background: var(--surface2); }
+      .svc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 10px;
+      }
+      .svc-card {
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 8px; padding: 12px 14px; font-size: 0.82rem;
+      }
+      .svc-card .svc-name { font-weight: 600; }
+      .svc-card .svc-ns { color: var(--muted); font-size: 0.75rem; }
+      .svc-card .svc-row { display: flex; justify-content: space-between; padding: 2px 0; }
+      .svc-card .svc-row .lbl { color: var(--muted); }
+      .badge-svc {
+        font-size: 0.65rem; padding: 1px 6px; border-radius: 3px; font-weight: 600;
+      }
+      .svc-type-ClusterIP .badge-svc { background: var(--accent); color: #000; }
+      .svc-type-LoadBalancer .badge-svc { background: var(--green); color: #000; }
+      .svc-type-NodePort .badge-svc { background: var(--orange); color: #000; }
+      .svc-type-ExternalName .badge-svc { background: var(--pink); color: #fff; }
+      .storage-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 10px;
+      }
+      .storage-card {
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 8px; padding: 12px 14px; font-size: 0.82rem;
+      }
+      .storage-card .st-name { font-weight: 600; }
+      .storage-card .st-ns { color: var(--muted); font-size: 0.75rem; }
+      .storage-card .st-row { display: flex; justify-content: space-between; padding: 2px 0; }
+      .storage-card .st-row .lbl { color: var(--muted); }
+      .st-Bound { color: var(--green); }
+      .st-Pending { color: var(--yellow); }
+      .st-Lost { color: var(--red); }
+      .st-Available { color: var(--accent); }
+      .st-Released { color: var(--muted); }
+      .filter-bar {
+        margin-bottom: 16px;
+        display: flex; gap: 8px; flex-wrap: wrap;
+      }
+      .filter-bar input {
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 6px; padding: 8px 12px; color: var(--text);
+        font-size: 0.85rem; flex: 1; min-width: 180px;
+      }
+      .filter-bar input::placeholder { color: var(--muted); }
+      .toggle-group {
+        display: flex; gap: 4px; margin-bottom: 12px;
+      }
+      .toggle-btn {
+        background: var(--surface); border: 1px solid var(--border);
+        border-radius: 6px; padding: 6px 14px; color: var(--muted);
+        cursor: pointer; font-size: 0.8rem; transition: all 0.15s;
+      }
+      .toggle-btn.active {
+        background: var(--accent); color: #000;
+        border-color: var(--accent); font-weight: 600;
+      }
+      .toggle-btn:hover { border-color: var(--accent); }
+      .tab-content { display: none; }
+      .tab-content.active { display: block; }
+      .loading {
+        text-align: center; padding: 60px 20px; color: var(--muted);
+      }
+      .loading .spinner {
+        width: 36px; height: 36px;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin: 0 auto 12px;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .empty { color: var(--muted); font-size: 0.85rem; padding: 12px 0; }
+      .error-banner {
+        background: var(--red); color: #fff; padding: 10px 16px;
+        border-radius: 8px; margin-bottom: 16px; font-size: 0.85rem;
+      }
+      footer {
+        text-align: center; padding: 20px 0 8px;
+        color: var(--muted); font-size: 0.75rem;
+        border-top: 1px solid var(--border); margin-top: 12px;
+      }
+    </style>
+    </head>
+    <body>
+    <h1>K3s Cluster Topology</h1>
+    <div class="subtitle" id="subtitle">Loading...</div>
+    <div class="counters" id="counters"></div>
+    <div class="toggle-group">
+      <button class="toggle-btn active" data-tab="nodes">Nodes &amp; Pods</button>
+      <button class="toggle-btn" data-tab="network">Network</button>
+      <button class="toggle-btn" data-tab="storage">Storage</button>
+    </div>
+    <div class="filter-bar">
+      <input type="text" id="filter" placeholder="Filter by name, namespace, status..." oninput="render()">
+    </div>
+    <div id="nodes-tab" class="tab-content active"></div>
+    <div id="network-tab" class="tab-content"></div>
+    <div id="storage-tab" class="tab-content"></div>
+    <footer>K3s Lab · live cluster data via Kubernetes API</footer>
+    <script>
+    let data = null;
+    document.querySelectorAll('.toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.getElementById(btn.dataset.tab + '-tab').classList.add('active');
+        render();
+      });
+    });
+    async function load() {
+      try {
+        const resp = await fetch('/api/data');
+        data = await resp.json();
+        document.getElementById('subtitle').textContent =
+          `Cluster overview — ${data.counts.nodes} nodes, ${data.counts.pods} pods, ${data.counts.namespaces} namespaces · updated live`;
+        render();
+      } catch (e) {
+        document.getElementById('subtitle').textContent = 'Failed to load cluster data';
+        document.getElementById('counters').innerHTML =
+          '<div class="error-banner">Error connecting to cluster API.</div>';
+      }
+    }
+    function render() { if (!data) return; renderCounters(); renderNodes(); renderNetwork(); renderStorage(); }
+    function renderCounters() {
+      const c = data.counts;
+      document.getElementById('counters').innerHTML = `
+        <div class="counter"><div class="num">${c.nodes}</div><div class="label">Nodes</div></div>
+        <div class="counter"><div class="num">${c.pods}</div><div class="label">Pods</div></div>
+        <div class="counter"><div class="num">${c.services}</div><div class="label">Services</div></div>
+        <div class="counter"><div class="num">${c.pvcs}</div><div class="label">PVCs</div></div>
+        <div class="counter"><div class="num">${c.pvs}</div><div class="label">PVs</div></div>
+        <div class="counter"><div class="num">${c.namespaces}</div><div class="label">Namespaces</div></div>`;
+    }
+    function fmtBytes(bytes) {
+      if (!bytes) return '?'; const n = parseInt(bytes);
+      if (n >= 1073741824) return (n / 1073741824).toFixed(1) + ' Gi';
+      if (n >= 1048576) return (n / 1048576).toFixed(1) + ' Mi';
+      if (n >= 1024) return (n / 1024).toFixed(1) + ' Ki';
+      return n + ' B';
+    }
+    function renderNodes() {
+      const el = document.getElementById('nodes-tab');
+      const f = document.getElementById('filter').value.toLowerCase();
+      let html = '<div class="node-grid">';
+      for (const node of data.nodes) {
+        if (f && !node.name.toLowerCase().includes(f)) continue;
+        const ready = (node.conditions.Ready === 'True');
+        const mem = node.resources.memory;
+        const maxPods = parseInt(node.resources.pods) || 0;
+        html += '<div class="node-card"><div class="node-header"><div>';
+        html += '<div class="node-name"><span class="node-status status-' + ready + '"></span>' + node.name + '</div>';
+        html += '<div class="node-roles">' + node.roles.map(r => '<span class="role-badge role-' + r + '">' + r + '</span>').join('') + '</div></div></div>';
+        html += '<div class="node-body">';
+        html += '<div class="node-info-row"><span class="lbl">Internal IP</span><span class="val">' + (node.internalIP || '-') + '</span></div>';
+        html += '<div class="node-info-row"><span class="lbl">Kubelet</span><span class="val">' + node.kubeletVersion + '</span></div>';
+        html += '<div class="node-info-row"><span class="lbl">CPU</span><span class="val">' + node.resources.cpu + '</span></div>';
+        html += '<div class="node-info-row"><span class="lbl">Memory</span><span class="val">' + fmtBytes(mem) + '</span></div>';
+        html += '<div class="node-info-row"><span class="lbl">Pods</span><span class="val">' + node.pods.length + '/' + maxPods + '</span></div>';
+        html += '<div class="pod-list"><div class="pod-list-title">Pods (' + node.pods.length + ')</div>';
+        const shown = node.pods.filter(p => !f || p.name.toLowerCase().includes(f) || p.namespace.toLowerCase().includes(f)).slice(0, 40);
+        for (const p of shown) {
+          html += '<div class="pod-item"><div><span class="pod-status-badge pod-' + p.status + '">' + p.status + '</span> ' + p.name + ' <span class="ns">' + p.namespace + '</span></div><span>' + p.ip + '</span></div>';
+        }
+        if (node.pods.length > 40) html += '<div class="pod-item" style="color:var(--muted)">... and ' + (node.pods.length - 40) + ' more</div>';
+        if (node.pods.length === 0) html += '<div class="empty">No pods</div>';
+        html += '</div></div></div>';
+      }
+      html += '</div>'; el.innerHTML = html;
+    }
+    function renderNetwork() {
+      const el = document.getElementById('network-tab');
+      const f = document.getElementById('filter').value.toLowerCase();
+      let items = data.services;
+      if (f) items = items.filter(s => s.name.toLowerCase().includes(f) || s.namespace.toLowerCase().includes(f) || s.type.toLowerCase().includes(f));
+      let html = '<div class="svc-grid">';
+      for (const s of items) {
+        const typeClass = s.type.replace(/\\s/g, '');
+        html += '<div class="svc-card"><div><span class="svc-name">' + s.name + '</span> <span class="svc-ns">' + s.namespace + '</span></div>';
+        html += '<div style="margin-top:4px"><span class="badge-svc svc-type-' + typeClass + '">' + s.type + '</span></div>';
+        html += '<div class="svc-row"><span class="lbl">Cluster IP</span><span>' + s.clusterIP + '</span></div>';
+        if (s.type === 'LoadBalancer') html += '<div class="svc-row"><span class="lbl">LB IP</span><span>' + s.loadBalancerIP + '</span></div>';
+        html += '<div class="svc-row"><span class="lbl">Ports</span><span>' + (s.ports.join(', ') || '-') + '</span></div></div>';
+      }
+      html += '</div>';
+      if (items.length === 0) html = '<div class="empty">No matching services</div>';
+      el.innerHTML = html;
+    }
+    function renderStorage() {
+      const el = document.getElementById('storage-tab');
+      const f = document.getElementById('filter').value.toLowerCase();
+      let pvcItems = data.pvcs, pvItems = data.pvs;
+      if (f) { pvcItems = pvcItems.filter(s => matchesFilter(s)); pvItems = pvItems.filter(s => matchesFilter(s)); }
+      let html = '<h2>Persistent Volume Claims</h2><div class="storage-grid">';
+      for (const p of pvcItems) {
+        html += '<div class="storage-card"><div><span class="st-name">' + p.name + '</span> <span class="st-ns">' + p.namespace + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Status</span><span class="st-' + p.status + '">' + p.status + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Storage</span><span>' + p.storage + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Access</span><span>' + (p.accessModes.join(', ') || '-') + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Class</span><span>' + p.storageClass + '</span></div></div>';
+      }
+      html += '</div>';
+      if (pvcItems.length === 0) html += '<div class="empty">No PVCs</div>';
+      html += '<h2 style="margin-top:20px">Persistent Volumes</h2><div class="storage-grid">';
+      for (const p of pvItems) {
+        html += '<div class="storage-card"><div><span class="st-name">' + p.name + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Status</span><span class="st-' + p.status + '">' + p.status + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Capacity</span><span>' + p.capacity + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Access</span><span>' + (p.accessModes.join(', ') || '-') + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Class</span><span>' + p.storageClass + '</span></div>';
+        html += '<div class="st-row"><span class="lbl">Claim</span><span>' + p.claim + '</span></div></div>';
+      }
+      html += '</div>';
+      if (pvItems.length === 0) html += '<div class="empty">No PVs</div>';
+      el.innerHTML = html;
+    }
+    function matchesFilter(obj) {
+      const f = document.getElementById('filter').value.toLowerCase();
+      if (!f) return true;
+      return Object.values(obj).some(v => String(v).toLowerCase().includes(f));
+    }
+    load();
+    setInterval(load, 30000);
+    </script>
+    </body>
+    </html>
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-topology
+  namespace: cluster-topology
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-topology
+  template:
+    metadata:
+      labels:
+        app: cluster-topology
+    spec:
+      serviceAccountName: topology-viewer
+      containers:
+      - name: app
+        image: python:3-alpine
+        command:
+        - sh
+        - -c
+        - |
+          pip install flask kubernetes --quiet --no-cache-dir 2>&1
+          exec python /app/app.py
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PORT
+          value: "8080"
+        volumeMounts:
+        - mountPath: /app
+          name: app-code
+      volumes:
+      - name: app-code
+        configMap:
+          name: topology-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cluster-topology
+  namespace: cluster-topology
+  annotations:
+    metallb.universe.tf/address-pool: lan-pool
+spec:
+  loadBalancerIP: 192.168.0.206
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: cluster-topology
+  type: LoadBalancer
